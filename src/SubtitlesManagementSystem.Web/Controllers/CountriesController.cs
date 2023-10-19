@@ -159,7 +159,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
 
         private bool CountryExists(string id)
         {
-          return (_applicationDbContext.Countries?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_applicationDbContext.Countries?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
