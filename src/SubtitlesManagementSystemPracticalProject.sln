@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtitlesManagementSystem.Web", "SubtitlesManagementSystem.Web\SubtitlesManagementSystem.Web.csproj", "{A16DF2DF-7CC8-4AF5-B9AE-67A1462516FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubtitlesManagementSystem.Web", "SubtitlesManagementSystem.Web\SubtitlesManagementSystem.Web.csproj", "{A16DF2DF-7CC8-4AF5-B9AE-67A1462516FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.DataModels", "Data.DataModels\Data.DataModels.csproj", "{93D668EA-DAA2-46D2-A6A7-78DAD30220A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A16DF2DF-7CC8-4AF5-B9AE-67A1462516FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A16DF2DF-7CC8-4AF5-B9AE-67A1462516FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A16DF2DF-7CC8-4AF5-B9AE-67A1462516FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D668EA-DAA2-46D2-A6A7-78DAD30220A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D668EA-DAA2-46D2-A6A7-78DAD30220A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D668EA-DAA2-46D2-A6A7-78DAD30220A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D668EA-DAA2-46D2-A6A7-78DAD30220A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
