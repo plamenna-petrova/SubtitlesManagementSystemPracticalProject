@@ -1,13 +1,13 @@
 ﻿namespace Data.DataModels.Entities
 {
-    public class FilmProductionGenre
+    public class FilmProductionActor
     {
         public string FilmProductionId { get; set; }
 
         public virtual FilmProduction FilmProduction { get; set; }
 
-        public string GenreId { get; set; }
+        public string ActorId { get; set; }
 
-        public virtual Genre Genre { get; set; }
+        public virtual Actor Actor { get; set; }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Data.DataModels.Abstraction;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Data.DataModels.Entities
 {
@@ -10,7 +8,7 @@ namespace Data.DataModels.Entities
     {
         public Country()
         {
-            FilmProductions = new HashSet<FilmProduction>();    
+            FilmProductions = new HashSet<FilmProduction>();
         }
 
         [Required]
@@ -20,8 +18,8 @@ namespace Data.DataModels.Entities
 
         public string CreatedBy { get; set; }
 
-        public string ModifiedBy { get; set; } 
-        
+        public string ModifiedBy { get; set; }
+
         public virtual ICollection<FilmProduction> FilmProductions { get; set; }
     }
 }

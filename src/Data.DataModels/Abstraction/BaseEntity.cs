@@ -9,7 +9,7 @@ namespace Data.DataModels.Abstraction
     {
         public BaseEntity()
         {
-            Id = Guid.NewGuid().ToString()[..7];
+            Id = Guid.NewGuid().ToString().Substring(0, 7);
         }
 
         public string Id { get; set; }

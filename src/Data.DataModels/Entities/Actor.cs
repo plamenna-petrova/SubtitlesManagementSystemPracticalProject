@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Data.DataModels.Entities
 {
     public class Actor : CrewMember
     {
+        public Actor()
+        {
+            FilmProductionActors = new HashSet<FilmProductionActor>();
+        }
 
+        public virtual ICollection<FilmProductionActor> FilmProductionActors { get; set; }
     }
 }

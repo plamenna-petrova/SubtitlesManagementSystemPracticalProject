@@ -1,8 +1,6 @@
 ﻿using Data.DataModels.Abstraction;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Data.DataModels.Entities
 {
@@ -14,7 +12,7 @@ namespace Data.DataModels.Entities
         }
 
         [Required]
-        [MinLength(2)]
+        [MinLength(5)]
         [MaxLength(15)]
         public string Name { get; set; }
 
