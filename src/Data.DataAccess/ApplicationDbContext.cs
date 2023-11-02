@@ -125,7 +125,7 @@ namespace Data.DataAccess
 
             foreach (var changeTrackerEntry in changeTrackerEntries)
             {
-                var auditableEntity = changeTrackerEntry.Entity as IAuditInfo;
+                var auditableEntity = (changeTrackerEntry.Entity as IAuditInfo)!;
 
                 switch (changeTrackerEntry.State)
                 {
