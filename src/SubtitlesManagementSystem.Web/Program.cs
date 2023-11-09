@@ -3,6 +3,7 @@ using Data.DataModels.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using SubtitlesManagementSystem.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,7 @@ webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>();
 webApplicationBuilder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 webApplicationBuilder.Services
-    .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 

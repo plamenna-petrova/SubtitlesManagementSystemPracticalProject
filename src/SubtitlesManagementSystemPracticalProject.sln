@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.DataAccess", "Data.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubtitlesManagementSystem.Common", "SubtitlesManagementSystem.Common\SubtitlesManagementSystem.Common.csproj", "{35A2CDEE-F6EB-4BCA-A521-8E8F11CB11F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtitlesManagementSystem.Infrastructure", "SubtitlesManagementSystem.Infrastructure\SubtitlesManagementSystem.Infrastructure.csproj", "{24309891-0A70-4E74-B158-8872721469CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubtitlesManagementSystem.Infrastructure", "SubtitlesManagementSystem.Infrastructure\SubtitlesManagementSystem.Infrastructure.csproj", "{24309891-0A70-4E74-B158-8872721469CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
