@@ -18,6 +18,12 @@ webApplicationBuilder.Services
 
 webApplicationBuilder.Services.AddControllersWithViews();
 
+webApplicationBuilder.Services.AddRazorPages();
+
+webApplicationBuilder.Services.RegisterRepositories();
+
+webApplicationBuilder.Services.RegisterServiceLayer();
+
 var webApplication = webApplicationBuilder.Build();
 
 var logger = webApplication.Services.GetService<ILogger<Program>>()!;

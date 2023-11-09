@@ -22,7 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Data.DataAccess\Data.DataAccess.csproj" />
     <ProjectReference Include="..\Data.DataModels\Data.DataModels.csproj" />
+    <ProjectReference Include="..\SubtitlesManagementSystem.Business\SubtitlesManagementSystem.Business.csproj" />
     <ProjectReference Include="..\SubtitlesManagementSystem.Infrastructure\SubtitlesManagementSystem.Infrastructure.csproj" />
+    <ProjectReference Include="..\SubtitlesManagementSystem.Web.Models\SubtitlesManagementSystem.Web.Models.csproj" />
   </ItemGroup>
 
 </Project>

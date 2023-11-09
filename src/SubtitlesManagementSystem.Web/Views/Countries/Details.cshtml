@@ -1,0 +1,47 @@
+﻿@model SubtitlesManagementSystem.Web.Models.Countries.ViewModels.CountryDetailsViewModel
+
+@{
+    ViewData["Title"] = "Country Details";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div>
+    <hr />
+    <dl class="row bg-secondary">
+        <dt class="col-sm-2 text-white bg-info font-weight-normal">
+            @Html.DisplayNameFor(country => country.Name)
+        </dt>
+        <dd class="col-sm-10 text-white">
+            @Html.DisplayFor(country => country.Name)
+        </dd>
+        <dt class="col-sm-2 text-white bg-info font-weight-normal">
+            @Html.DisplayNameFor(country => country.CreatedOn)
+        </dt>
+        <dd class="col-sm-10 text-white">
+            @Html.DisplayFor(country => country.CreatedOn)
+        </dd>
+        <dt class="col-sm-2 text-white bg-info font-weight-normal">
+            @Html.DisplayNameFor(country => country.CreatedBy)
+        </dt>
+        <dd class="col-sm-10 text-white">
+            @Html.DisplayFor(country => country.CreatedBy)
+        </dd>
+        <dt class="col-sm-2 text-white bg-info font-weight-normal">
+            @Html.DisplayNameFor(country => country.ModifiedOn)
+        </dt>
+        <dd class="col-sm-10 text-white">
+            @Html.DisplayFor(country => country.ModifiedOn)
+        </dd>
+        <dt class="col-sm-2 text-white bg-info font-weight-normal">
+            @Html.DisplayNameFor(country => country.ModifiedBy)
+        </dt>
+        <dd class="col-sm-10 text-white">
+            @Html.DisplayFor(country => country.ModifiedBy)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark">Edit Country</a>
+</div>
