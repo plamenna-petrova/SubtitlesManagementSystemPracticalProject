@@ -14,6 +14,8 @@ namespace SubtitlesManagementSystem.Infrastructure.Extensions
         public static void RegisterRepositories(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<ICountryRepository, CountryRepository>();
+            serviceCollection.AddScoped<IGenreRepository, GenreRepository>();
+            serviceCollection.AddScoped<ILanguageRepository, LanguageRepository>();
         }
     }
 }

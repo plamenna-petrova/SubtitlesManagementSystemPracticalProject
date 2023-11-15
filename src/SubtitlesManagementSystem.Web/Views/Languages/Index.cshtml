@@ -1,24 +1,24 @@
-﻿@model IEnumerable<SubtitlesManagementSystem.Web.Models.Countries.ViewModels.AllCountriesViewModel>
+﻿@model IEnumerable<SubtitlesManagementSystem.Web.Models.Languages.ViewModels.AllLanguagesViewModel>
 
 @{
-    ViewData["Title"] = "Countries List";
+    ViewData["Title"] = "Languages List";
 }
 
 <h3>@ViewData["Title"]</h3>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New Country</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Language</a>
 </p>
-@if (TempData["CountrySuccessMessage"] != null)
+@if (TempData["LanguageSuccessMessage"] != null)
 {
     <div class="alert alert-success" role="alert">
-        @TempData["CountrySuccessMessage"]
+        @TempData["LanguageSuccessMessage"]
     </div>
 }
 
 @if (!Model.Any())
 {
-    <h3>There are currently no countries</h3>
+    <h3>There are currently no languages</h3>
 }
 else
 {
@@ -26,7 +26,7 @@ else
         <thead class="thead-light">
             <tr class="text-center">
                 <th>
-                    @Html.DisplayNameFor(country => country.Name)
+                    @Html.DisplayNameFor(language => language.Name)
                 </th>
                 <th>
                     Related Film Productions
@@ -37,17 +37,17 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var country in Model)
+            @foreach (var language in Model)
             {
                 <tr class="text-center">
                     <td>
-                        @Html.DisplayFor(countryModelItem => country.Name)
+                        @Html.DisplayFor(languageModelItem => language.Name)
                     </td>
                     <td>
                         <ul>
-                            @if (country.RelatedFilmProductions.Count() > 0)
+                            @if (language.RelatedFilmProductions.Count() > 0)
                             {
-                                @foreach (var filmProduction in country.RelatedFilmProductions)
+                                @foreach (var filmProduction in language.RelatedFilmProductions)
                                 {
                                     <li>@filmProduction.Title</li>
                                 }
@@ -59,9 +59,9 @@ else
                         </ul>
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@country.Id" class="btn btn-light">Edit</a>
-                        <a asp-action="Details" asp-route-id="@country.Id" class="btn btn-info">Details</a>
-                        <a asp-action="Delete" asp-route-id="@country.Id" class="btn btn-danger">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@language.Id" class="btn btn-light">Edit</a>
+                        <a asp-action="Details" asp-route-id="@language.Id" class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@language.Id" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             }

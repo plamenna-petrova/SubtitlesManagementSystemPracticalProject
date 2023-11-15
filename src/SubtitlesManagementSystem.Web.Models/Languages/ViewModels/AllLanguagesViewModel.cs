@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SubtitlesManagementSystem.Web.Models.Countries.ViewModels
+namespace SubtitlesManagementSystem.Web.Models.Languages.ViewModels
 {
-    public class AllCountriesViewModel
+    public class AllLanguagesViewModel
     {
         public string Id { get; set; }
 

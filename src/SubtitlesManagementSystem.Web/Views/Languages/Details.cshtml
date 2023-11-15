@@ -1,7 +1,7 @@
-﻿@model SubtitlesManagementSystem.Web.Models.Countries.ViewModels.CountryDetailsViewModel
+﻿@model SubtitlesManagementSystem.Web.Models.Languages.ViewModels.LanguageDetailsViewModel
 
 @{
-    ViewData["Title"] = "Country Details";
+    ViewData["Title"] = "Language Details";
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -10,34 +10,34 @@
     <hr />
     <dl class="row bg-secondary">
         <dt class="col-sm-2 text-white bg-info font-weight-normal">
-            @Html.DisplayNameFor(country => country.Name)
+            @Html.DisplayNameFor(language => language.Name)
         </dt>
-        <dd class="col-sm-10 text-white">
-            @Html.DisplayFor(country => country.Name)
+        <dd class="col-sm-10 text-light">
+            @Html.DisplayFor(language => language.Name)
         </dd>
         <dt class="col-sm-2 text-white bg-info font-weight-normal">
-            @Html.DisplayNameFor(country => country.CreatedOn)
+            @Html.DisplayNameFor(language => language.CreatedOn)
         </dt>
         <dd class="col-sm-10 text-white">
-            @Html.DisplayFor(country => country.CreatedOn)
+            @Html.DisplayFor(language => language.CreatedOn)
         </dd>
         <dt class="col-sm-2 text-white bg-info font-weight-normal">
-            @Html.DisplayNameFor(country => country.CreatedBy)
+            @Html.DisplayNameFor(language => language.CreatedBy)
         </dt>
         <dd class="col-sm-10 text-white">
-            @Html.DisplayFor(country => country.CreatedBy)
+            @Html.DisplayFor(language => language.CreatedBy)
         </dd>
         <dt class="col-sm-2 text-white bg-info font-weight-normal">
-            @Html.DisplayNameFor(country => country.ModifiedOn)
+            @Html.DisplayNameFor(language => language.ModifiedOn)
         </dt>
         <dd class="col-sm-10 text-white">
-            @Html.DisplayFor(country => country.ModifiedOn)
+            @Html.DisplayFor(language => language.ModifiedOn)
         </dd>
         <dt class="col-sm-2 text-white bg-info font-weight-normal">
-            @Html.DisplayNameFor(country => country.ModifiedBy)
+            @Html.DisplayNameFor(language => language.ModifiedBy)
         </dt>
         <dd class="col-sm-10 text-white">
-            @Html.DisplayFor(country => country.ModifiedBy)
+            @Html.DisplayFor(language => language.ModifiedBy)
         </dd>
         <dt class="col-sm-2 text-white bg-info font-weight-normal">
             Related Film Productions
@@ -81,5 +81,5 @@
 </div>
 <div>
     <a asp-action="Index" class="btn btn-primary">Back to List</a>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark">Edit Country</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark">Edit Language</a>
 </div>

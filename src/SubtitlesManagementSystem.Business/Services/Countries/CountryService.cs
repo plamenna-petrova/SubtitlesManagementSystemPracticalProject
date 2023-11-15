@@ -2,6 +2,7 @@
 using Data.DataModels.Entities;
 using SubtitlesManagementSystem.Web.Models.Countries.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Countries.ViewModels;
+using SubtitlesManagementSystem.Web.Models.FilmProductions.ViewModels;
 
 namespace SubtitlesManagementSystem.Business.Services.Countries
 {
@@ -28,11 +29,11 @@ namespace SubtitlesManagementSystem.Business.Services.Countries
                     {
                         Id = c.Id,
                         Name = c.Name,
-                        //RelatedFilmProductions = c.FilmProductions
-                        //    .Select(fp => new FilmProductionConciseInformationViewModel
-                        //    {
-                        //        Title = fp.Title
-                        //    })
+                        RelatedFilmProductions = c.FilmProductions
+                            .Select(fp => new FilmProductionConciseInformationViewModel
+                            {
+                                Title = fp.Title
+                            })
                     })
                     .ToList();
 
@@ -58,13 +59,13 @@ namespace SubtitlesManagementSystem.Business.Services.Countries
                 CreatedBy = singleCountry.CreatedBy,
                 ModifiedOn = singleCountry.ModifiedOn,
                 ModifiedBy = singleCountry.ModifiedBy,
-                //RelatedFilmProductions = singleCountry.FilmProductions
-                //    .Select(fp => new FilmProductionDetailedInformationViewModel
-                //    {
-                //        Title = fp.Title,
-                //        Duration = fp.Duration,
-                //        ReleaseDate = fp.ReleaseDate
-                //    })
+                RelatedFilmProductions = singleCountry.FilmProductions
+                    .Select(fp => new FilmProductionDetailedInformationViewModel
+                    {
+                        Title = fp.Title,
+                        Duration = fp.Duration,
+                        ReleaseDate = fp.ReleaseDate
+                    })
             };
 
             return singleCountryDetails;

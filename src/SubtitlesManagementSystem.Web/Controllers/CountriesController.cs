@@ -38,12 +38,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index(
-            string sortOrder,
-            string currentFilter,
-            string searchTerm,
-            int? pageSize,
-            int? pageNumber)
+        public IActionResult Index()
         {
             IEnumerable<AllCountriesViewModel> allCountriesViewModel = 
                 _countryService.GetAllCountriesWithRelatedData();
@@ -114,8 +109,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
         [Authorize(Roles = "Administrator, Editor")]
         public IActionResult Edit(string id)
         {
-            EditCountryBindingModel editCountryBindingModel = _countryService
-                .GetCountryEditingDetails(id);
+            EditCountryBindingModel editCountryBindingModel = _countryService.GetCountryEditingDetails(id);
 
             if (editCountryBindingModel == null)
             {
