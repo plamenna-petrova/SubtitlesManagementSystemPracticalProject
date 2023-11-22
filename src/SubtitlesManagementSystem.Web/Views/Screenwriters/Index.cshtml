@@ -1,0 +1,91 @@
+﻿@model IEnumerable<SubtitlesManagementSystem.Web.Models.Screenwriters.ViewModels.AllScreenwritersViewModel>
+
+@{
+    ViewData["Title"] = "Screenwriters List";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Screenwriter</a>
+</p>
+@if (TempData["ScreenwriterSuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["ScreenwriterSuccessMessage"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <h3>There are currently no screenwriters</h3>
+}
+else
+{
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <p>
+                <b>Search by screenwriter names: </b>
+                <input type="text" name="SearchTerm" class="search-term-input"
+                       value="@ViewData["ScreenwriterSearchFilter"]" />
+                <input type="submit" value="Search" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-primary">Reset</a>
+            </p>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-dark table-striped table-hover mt-3">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th>
+                    @Html.DisplayNameFor(screenwriter => screenwriter.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(screenwriter => screenwriter.LastName)
+                </th>
+                <th>
+                    Related Film Productions
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var screenwriter in Model)
+            {
+                <tr class="text-center">
+                    <td>
+                        @Html.DisplayFor(screenwriterModelItem => screenwriter.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(screenwriterModelItem => screenwriter.LastName)
+                    </td>
+                    <td>
+                        <ul>
+                            @if (screenwriter.RelatedFilmProductions.Count() > 0)
+                            {
+                                @foreach (var filmProduction in screenwriter.RelatedFilmProductions)
+                                {
+                                    <li>@filmProduction.Title</li>
+                                }
+                            }
+                            else
+                            {
+                                <li>No Related Film Productions</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@screenwriter.Id"
+                           class="btn btn-light">Edit</a>
+                        <a asp-action="Details" asp-route-id="@screenwriter.Id"
+                           class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@screenwriter.Id"
+                           class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

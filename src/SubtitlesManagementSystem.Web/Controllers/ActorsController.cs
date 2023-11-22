@@ -32,13 +32,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index(
-            string sortOrder,
-            string currentFilter,
-            string searchTerm,
-            int? pageSize,
-            int? pageNumber
-        )
+        public IActionResult Index()
         {
             IEnumerable<AllActorsViewModel> allActorsViewModel = _actorService.GetAllActors();
 
