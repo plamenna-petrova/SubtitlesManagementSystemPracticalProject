@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SubtitlesManagementSystem.Business.Services.Actors;
 using SubtitlesManagementSystem.Business.Services.Countries;
+using SubtitlesManagementSystem.Business.Services.FilmProductions;
 using SubtitlesManagementSystem.Business.Services.Genres;
 using SubtitlesManagementSystem.Business.Services.Languages;
 using SubtitlesManagementSystem.Business.Transactions.Implementation;
@@ -21,6 +23,8 @@ namespace SubtitlesManagementSystem.Infrastructure.Extensions
             serviceCollection.AddTransient<ICountryService, CountryService>();
             serviceCollection.AddTransient<IGenreService, GenreService>();
             serviceCollection.AddTransient<ILanguageService, LanguageService>();
+            serviceCollection.AddTransient<IActorService, ActorService>();
+            serviceCollection.AddTransient<IFilmProductionService, FilmProductionService>();
         }
     }
 }

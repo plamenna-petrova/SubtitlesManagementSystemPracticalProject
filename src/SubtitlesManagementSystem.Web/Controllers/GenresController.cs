@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Data.DataAccess;
+﻿using Microsoft.AspNetCore.Mvc;
 using Data.DataModels.Entities;
 using Microsoft.AspNetCore.Authorization;
 using SubtitlesManagementSystem.Business.Services.Genres;
@@ -13,7 +6,6 @@ using SubtitlesManagementSystem.Business.Transactions.Interfaces;
 using SubtitlesManagementSystem.Common.GlobalConstants;
 using SubtitlesManagementSystem.Web.Models.Genres.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Genres.ViewModels;
-using System.Data;
 using System.Security.Claims;
 
 namespace SubtitlesManagementSystem.Web.Controllers
