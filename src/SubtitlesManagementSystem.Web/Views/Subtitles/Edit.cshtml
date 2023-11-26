@@ -1,0 +1,60 @@
+﻿@model SubtitlesManagementSystem.Web.Models.Subtitles.BindingModels.EditSubtitlesBindingModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>@ViewData["Title"] @Model.Name</h1>
+
+@if (TempData["SubtitlesErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["SubtitlesErrorMessage"]
+    </div>
+}
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewBag.FilmProductionByTitle != null)
+            {
+                <div class="form-group">
+                    <label class="control-label">Film Production</label>
+                    <select asp-for="FilmProductionId" class="form-control" asp-items="ViewBag.FilmProductionByTitle"></select>
+                    <span asp-validation-for="FilmProductionId" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label class="col-form-label">Select Multiple Files</label>
+                <input asp-for="Files" type="file" accept=".srt" class="form-control" multiple />
+                <span asp-validation-for="Files" class="text-danger"></span>
+            </div>
+            @if (ViewBag.ExistingSubtitlesFilesNames != null)
+            {
+                <span>Already uploaded files : </span>
+
+                <ul>
+                    @foreach (var existingSubtitlesFileName in ViewBag.ExistingSubtitlesFilesNames)
+                    {
+                        <li>@existingSubtitlesFileName</li>
+                    }
+                </ul>
+            }
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

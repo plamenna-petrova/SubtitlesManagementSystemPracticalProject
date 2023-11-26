@@ -27,4 +27,8 @@
     <ProjectReference Include="..\SubtitlesManagementSystem.Web.Models\SubtitlesManagementSystem.Web.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\film-productions\" />
+  </ItemGroup>
+
 </Project>

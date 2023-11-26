@@ -1,0 +1,61 @@
+﻿@model IEnumerable<SubtitlesManagementSystem.Web.Models.Subtitles.ViewModels.AllSubtitlesViewModel>
+
+@{
+    ViewData["Title"] = "Subtitles List";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Subtitles</a>
+</p>
+@if (TempData["SubtitlesSuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SubtitlesSuccessMessage"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <h3>There are currently no subtitles</h3>
+}
+else
+{
+    <table class="table table-bordered table-dark table-striped table-hover mt-3">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th>
+                    @Html.DisplayNameFor(subtitles => subtitles.Name)
+                </th>
+                <th>
+                    Related Film Productions
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var subtitles in Model)
+            {
+                <tr class="text-center">
+                    <td>
+                        @Html.DisplayFor(subtitlesModelItem => subtitles.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(subtitlesModelItem => subtitles.RelatedFilmProduction.Title)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@subtitles.Id"
+                           class="btn btn-light">Edit</a>
+                        <a asp-action="Details" asp-route-id="@subtitles.Id"
+                           class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@subtitles.Id"
+                           class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

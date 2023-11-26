@@ -39,12 +39,12 @@ namespace SubtitlesManagementSystem.Web.Models.FilmProductions.BindingModels
         [DisplayName("Upload Image")]
         public IFormFile? ImageFile { get; set; }
 
-        public IEnumerable<AssignedGenreDataViewModel> AssignedGenres { get; set; }
+        public IEnumerable<AssignedGenreDataViewModel>? AssignedGenres { get; set; }
 
-        public IEnumerable<AssignedActorDataViewModel> AssignedActors { get; set; }
+        public IEnumerable<AssignedActorDataViewModel>? AssignedActors { get; set; }
 
-        public IEnumerable<AssignedDirectorDataViewModel> AssignedDirectors { get; set; }
+        public IEnumerable<AssignedDirectorDataViewModel>? AssignedDirectors { get; set; }
 
-        public IEnumerable<AssignedScreenwriterDataViewModel> AssignedScreenwriters { get; set; }
+        public IEnumerable<AssignedScreenwriterDataViewModel>? AssignedScreenwriters { get; set; }
     }
 }

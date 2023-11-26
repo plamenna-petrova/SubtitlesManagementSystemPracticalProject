@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Data.DataAccess.Repositories.Implementation;
+using Data.DataAccess.Repositories.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using SubtitlesManagementSystem.Business.Services.Actors;
 using SubtitlesManagementSystem.Business.Services.Countries;
 using SubtitlesManagementSystem.Business.Services.Directors;
@@ -6,6 +8,7 @@ using SubtitlesManagementSystem.Business.Services.FilmProductions;
 using SubtitlesManagementSystem.Business.Services.Genres;
 using SubtitlesManagementSystem.Business.Services.Languages;
 using SubtitlesManagementSystem.Business.Services.Screenwriters;
+using SubtitlesManagementSystem.Business.Services.Subtitles;
 using SubtitlesManagementSystem.Business.Transactions.Implementation;
 using SubtitlesManagementSystem.Business.Transactions.Interfaces;
 using System;
@@ -29,6 +32,7 @@ namespace SubtitlesManagementSystem.Infrastructure.Extensions
             serviceCollection.AddTransient<IFilmProductionService, FilmProductionService>();
             serviceCollection.AddTransient<IDirectorService, DirectorService>();
             serviceCollection.AddTransient<IScreenwriterService, ScreenwriterService>();
+            serviceCollection.AddTransient<ISubtitlesService, SubtitlesService>();
         }
     }
 }

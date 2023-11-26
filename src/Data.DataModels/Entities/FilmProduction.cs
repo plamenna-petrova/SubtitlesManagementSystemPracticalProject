@@ -44,7 +44,7 @@ namespace Data.DataModels.Entities
 
         public virtual Language Language { get; set; }
 
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
 
         [NotMapped]
         public IFormFile ImageFile { get; set; }

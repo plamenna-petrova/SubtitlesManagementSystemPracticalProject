@@ -1,5 +1,6 @@
 ﻿using Data.DataAccess.Repositories.Interfaces;
 using Data.DataModels.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SubtitlesManagementSystem.Web.Models.Countries.ViewModels;
 using SubtitlesManagementSystem.Web.Models.FilmProductions.BindingModels;
@@ -22,43 +23,43 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
 
         private readonly IActorRepository _actorRepository;
 
-        //private readonly IDirectorRepository _directorRepository;
+        private readonly IDirectorRepository _directorRepository;
 
-        //private readonly IScreenwriterRepository _screenwriterRepository;
+        private readonly IScreenwriterRepository _screenwriterRepository;
 
-        //private readonly IFilmProductionGenreRepository _filmProductionGenreRepository;
+        private readonly IFilmProductionGenreRepository _filmProductionGenreRepository;
 
         private readonly IFilmProductionActorRepository _filmProductionActorRepository;
 
-        //private readonly IFilmProductionDirectorRepository _filmProductonDirectorRepository;
+        private readonly IFilmProductionDirectorRepository _filmProductonDirectorRepository;
 
-        //private readonly IFilmProductionScreenwriterRepository _filmProductionScreenwriterRepository;
+        private readonly IFilmProductionScreenwriterRepository _filmProductionScreenwriterRepository;
 
-        //private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public FilmProductionService(
             IFilmProductionRepository filmProductionRepository,
             IGenreRepository genreRepository,
             IActorRepository actorRepository,
-            //IDirectorRepository directorRepository,
-            //IScreenwriterRepository screenwriterRepository,
-            //IFilmProductionGenreRepository filmProductionGenreRepository,
-            IFilmProductionActorRepository filmProductionActorRepository
-            //IFilmProductionDirectorRepository filmProductionDirectorRepository,
-            //IFilmProductionScreenwriterRepository filmProductionScreenwriterRepository,
-            //IWebHostEnvironment webHostEnvironment
+            IDirectorRepository directorRepository,
+            IScreenwriterRepository screenwriterRepository,
+            IFilmProductionGenreRepository filmProductionGenreRepository,
+            IFilmProductionActorRepository filmProductionActorRepository,
+            IFilmProductionDirectorRepository filmProductionDirectorRepository,
+            IFilmProductionScreenwriterRepository filmProductionScreenwriterRepository,
+            IHostingEnvironment hostingEnvironment
         )
         {
             _filmProductionRepository = filmProductionRepository;
             _genreRepository = genreRepository;
             _actorRepository = actorRepository;
-            //_directorRepository = directorRepository;
-            //_screenwriterRepository = screenwriterRepository;
-            //_filmProductionGenreRepository = filmProductionGenreRepository;
+            _directorRepository = directorRepository;
+            _screenwriterRepository = screenwriterRepository;
+            _filmProductionGenreRepository = filmProductionGenreRepository;
             _filmProductionActorRepository = filmProductionActorRepository;
-            //_filmProductonDirectorRepository = filmProductionDirectorRepository;
-            //_filmProductionScreenwriterRepository = filmProductionScreenwriterRepository;
-            //_webHostEnvironment = webHostEnvironment;
+            _filmProductonDirectorRepository = filmProductionDirectorRepository;
+            _filmProductionScreenwriterRepository = filmProductionScreenwriterRepository;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public List<FilmProduction> GetAllFilmProductions()
@@ -190,14 +191,14 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
             string currentUserName
         )
         {
-            //string wwwRootPath = _webHostEnvironment.WebRootPath;
-            //string fileName = Path.GetFileNameWithoutExtension(
-            //    createFilmProductionBindingModel.ImageFile.FileName
-            //);
-            //string extension = Path.GetExtension(createFilmProductionBindingModel.ImageFile.FileName);
-            //string filmProductionImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff")
-            //        + extension;
-            //string path = Path.Combine(wwwRootPath + "/images/film-productions", fileName);
+            string wwwRootPath = _hostingEnvironment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(
+                createFilmProductionBindingModel.ImageFile.FileName
+            );
+            string extension = Path.GetExtension(createFilmProductionBindingModel.ImageFile.FileName);
+            string filmProductionImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff")
+                    + extension;
+            string path = Path.Combine(wwwRootPath + "/images/film-productions", fileName);
 
             FilmProduction filmProductionToCreate = new FilmProduction
             {
@@ -207,14 +208,14 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                 PlotSummary = createFilmProductionBindingModel.PlotSummary,
                 CountryId = createFilmProductionBindingModel.CountryId,
                 LanguageId = createFilmProductionBindingModel.LanguageId,
-                ImageName = null,
+                ImageName = filmProductionImageName,
                 ImageFile = createFilmProductionBindingModel.ImageFile
             };
 
-            //using (var fileStream = new FileStream(path, FileMode.Create))
-            //{
-            //    filmProductionToCreate.ImageFile.CopyTo(fileStream);
-            //}
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                filmProductionToCreate.ImageFile.CopyTo(fileStream);
+            }
 
             if (selectedGenres != null)
             {
@@ -336,40 +337,40 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                             .ThenInclude(fps => fps.Screenwriter)
                       .FirstOrDefault();
 
-            //if (editFilmProductionBindingModel.ImageFile != null)
-            //{
-            //    string wwwRootPath = _webHostEnvironment.WebRootPath;
-            //    string fileName = Path.GetFileNameWithoutExtension(
-            //            editFilmProductionBindingModel.ImageFile.FileName
-            //    );
-            //    string extension = Path.GetExtension(editFilmProductionBindingModel.ImageFile.FileName);
-            //    string filmProductionImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff")
-            //            + extension;
+            if (editFilmProductionBindingModel.ImageFile != null)
+            {
+                string wwwRootPath = _hostingEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(
+                        editFilmProductionBindingModel.ImageFile.FileName
+                );
+                string extension = Path.GetExtension(editFilmProductionBindingModel.ImageFile.FileName);
+                string filmProductionImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff")
+                        + extension;
 
-            //    string path = Path.Combine(wwwRootPath + "/images/film-productions", fileName);
+                string path = Path.Combine(wwwRootPath + "/images/film-productions", fileName);
 
-            //    if (filmProductionToUpdate.ImageName != null)
-            //    {
-            //        var existingImagePath = Path.Combine(
-            //            _webHostEnvironment.WebRootPath,
-            //            "images/film-productions",
-            //                filmProductionToUpdate.ImageName
-            //        );
+                if (filmProductionToUpdate.ImageName != null)
+                {
+                    var existingImagePath = Path.Combine(
+                        _hostingEnvironment.WebRootPath,
+                        "images/film-productions",
+                            filmProductionToUpdate.ImageName
+                    );
 
-            //        if (File.Exists(existingImagePath))
-            //        {
-            //            File.Delete(existingImagePath);
-            //        }
-            //    }
+                    if (File.Exists(existingImagePath))
+                    {
+                        File.Delete(existingImagePath);
+                    }
+                }
 
-            //    filmProductionToUpdate.ImageName = filmProductionImageName;
-            //    filmProductionToUpdate.ImageFile = editFilmProductionBindingModel.ImageFile;
+                filmProductionToUpdate.ImageName = filmProductionImageName;
+                filmProductionToUpdate.ImageFile = editFilmProductionBindingModel.ImageFile;
 
-            //    using (var fileStream = new FileStream(path, FileMode.Create))
-            //    {
-            //        filmProductionToUpdate.ImageFile.CopyTo(fileStream);
-            //    }
-            //}
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    filmProductionToUpdate.ImageFile.CopyTo(fileStream);
+                }
+            }
 
             filmProductionToUpdate.Title = editFilmProductionBindingModel.Title;
             filmProductionToUpdate.Duration = editFilmProductionBindingModel.Duration;
@@ -415,41 +416,41 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
 
         public void DeleteFilmProduction(FilmProduction filmProduction)
         {
-            //var filmProductionGenresByFilmProduction = _filmProductionGenreRepository
-            //        .GetAllByCondition(fpg => fpg.FilmProductionId == filmProduction.Id)
-            //            .ToArray();
+            var filmProductionGenresByFilmProduction = _filmProductionGenreRepository
+                    .GetAllByCondition(fpg => fpg.FilmProductionId == filmProduction.Id)
+                        .ToArray();
 
             var filmProductionActorsByFilmProduction = _filmProductionActorRepository
                     .GetAllByCondition(fpa => fpa.FilmProductionId == filmProduction.Id)
                         .ToArray();
 
-            //var filmProductionDirectorsByFilmProduction = _filmProductonDirectorRepository
-            //        .GetAllByCondition(fpd => fpd.FilmProductionId == filmProduction.Id)
-            //            .ToArray();
+            var filmProductionDirectorsByFilmProduction = _filmProductonDirectorRepository
+                    .GetAllByCondition(fpd => fpd.FilmProductionId == filmProduction.Id)
+                        .ToArray();
 
-            //var filmProductionScreewritersByFilmProduction = _filmProductionScreenwriterRepository
-            //        .GetAllByCondition(fps => fps.FilmProductionId == filmProduction.Id)
-            //            .ToArray();
+            var filmProductionScreewritersByFilmProduction = _filmProductionScreenwriterRepository
+                    .GetAllByCondition(fps => fps.FilmProductionId == filmProduction.Id)
+                        .ToArray();
 
-            //if (filmProductionGenresByFilmProduction.Any())
-            //{
-            //    _filmProductionGenreRepository.DeleteRange(filmProductionGenresByFilmProduction);
-            //}
+            if (filmProductionGenresByFilmProduction.Any())
+            {
+                _filmProductionGenreRepository.DeleteRange(filmProductionGenresByFilmProduction);
+            }
 
             if (filmProductionActorsByFilmProduction.Any())
             {
                 _filmProductionActorRepository.DeleteRange(filmProductionActorsByFilmProduction);
             }
 
-            //if (filmProductionDirectorsByFilmProduction.Any())
-            //{
-            //    _filmProductonDirectorRepository.DeleteRange(filmProductionDirectorsByFilmProduction);
-            //}
+            if (filmProductionDirectorsByFilmProduction.Any())
+            {
+                _filmProductonDirectorRepository.DeleteRange(filmProductionDirectorsByFilmProduction);
+            }
 
-            //if (filmProductionScreewritersByFilmProduction.Any())
-            //{
-            //    _filmProductionScreenwriterRepository.DeleteRange(filmProductionScreewritersByFilmProduction);
-            //}
+            if (filmProductionScreewritersByFilmProduction.Any())
+            {
+                _filmProductionScreenwriterRepository.DeleteRange(filmProductionScreewritersByFilmProduction);
+            }
 
             _filmProductionRepository.Delete(filmProduction);
         }
@@ -461,19 +462,19 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
 
         public void DeleteFilmProductionImage(FilmProduction filmProduction)
         {
-            //if (filmProduction.ImageName != null)
-            //{
-            //    var existingImagePath = Path.Combine(
-            //        _webHostEnvironment.WebRootPath,
-            //        "images/film-productions",
-            //            filmProduction.ImageName
-            //    );
+            if (filmProduction.ImageName != null)
+            {
+                var existingImagePath = Path.Combine(
+                    _hostingEnvironment.WebRootPath,
+                    "images/film-productions",
+                        filmProduction.ImageName
+                );
 
-            //    if (File.Exists(existingImagePath))
-            //    {
-            //        File.Delete(existingImagePath);
-            //    }
-            //}
+                if (File.Exists(existingImagePath))
+                {
+                    File.Delete(existingImagePath);
+                }
+            }
         }
 
         private Tuple<List<AssignedGenreDataViewModel>,
@@ -530,43 +531,43 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                 });
             }
 
-            //var directorsOfAFilmProduction = new HashSet<string>(
-            //        filmProduction.FilmProductionDirectors
-            //            .Select(fpd => fpd.Director.Id));
+            var directorsOfAFilmProduction = new HashSet<string>(
+                    filmProduction.FilmProductionDirectors
+                        .Select(fpd => fpd.Director.Id));
 
-            //var allDirectors = _directorRepository
-            //        .GetAllAsNoTracking()
-            //            .ToList();
+            var allDirectors = _directorRepository
+                    .GetAllAsNoTracking()
+                        .ToList();
 
-            //foreach (var director in allDirectors)
-            //{
-            //    assignedDirectorDataViewModel.Add(new AssignedDirectorDataViewModel
-            //    {
-            //        DirectorId = director.Id,
-            //        FirstName = director.FirstName,
-            //        LastName = director.LastName,
-            //        IsAssigned = directorsOfAFilmProduction.Contains(director.Id)
-            //    });
-            //}
+            foreach (var director in allDirectors)
+            {
+                assignedDirectorDataViewModel.Add(new AssignedDirectorDataViewModel
+                {
+                    DirectorId = director.Id,
+                    FirstName = director.FirstName,
+                    LastName = director.LastName,
+                    IsAssigned = directorsOfAFilmProduction.Contains(director.Id)
+                });
+            }
 
-            //var screenwritersOfAFilmProduction = new HashSet<string>(
-            //        filmProduction.FilmProductionScreenwriters
-            //            .Select(fps => fps.Screenwriter.Id));
+            var screenwritersOfAFilmProduction = new HashSet<string>(
+                    filmProduction.FilmProductionScreenwriters
+                        .Select(fps => fps.Screenwriter.Id));
 
-            //var allScreenwriters = _screenwriterRepository
-            //        .GetAllAsNoTracking()
-            //            .ToList();
+            var allScreenwriters = _screenwriterRepository
+                    .GetAllAsNoTracking()
+                        .ToList();
 
-            //foreach (var screenwriter in allScreenwriters)
-            //{
-            //    assignedScreenwriterDataViewModel.Add(new AssignedScreenwriterDataViewModel
-            //    {
-            //        ScreenwriterId = screenwriter.Id,
-            //        FirstName = screenwriter.FirstName,
-            //        LastName = screenwriter.LastName,
-            //        IsAssigned = screenwritersOfAFilmProduction.Contains(screenwriter.Id)
-            //    });
-            //}
+            foreach (var screenwriter in allScreenwriters)
+            {
+                assignedScreenwriterDataViewModel.Add(new AssignedScreenwriterDataViewModel
+                {
+                    ScreenwriterId = screenwriter.Id,
+                    FirstName = screenwriter.FirstName,
+                    LastName = screenwriter.LastName,
+                    IsAssigned = screenwritersOfAFilmProduction.Contains(screenwriter.Id)
+                });
+            }
 
             return Tuple.Create(
                 assignedGenreDataViewModel,
@@ -596,34 +597,34 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                     filmProduction.FilmProductionGenres.Select(fpg => fpg.Genre.Id)
                 );
 
-            //var allGenres = _genreRepository.GetAllAsNoTracking();
+            var allGenres = _genreRepository.GetAllAsNoTracking();
 
-            //foreach (var genre in allGenres)
-            //{
-            //    if (selectedGenresIds.Contains(genre.Id))
-            //    {
-            //        if (!genresOfAFilmProduction.Contains(genre.Id))
-            //        {
-            //            filmProduction.FilmProductionGenres.Add(new FilmProductionGenre
-            //            {
-            //                FilmProductionId = filmProduction.Id,
-            //                GenreId = genre.Id
-            //            });
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (genresOfAFilmProduction.Contains(genre.Id))
-            //        {
-            //            FilmProductionGenre filmProductionGenreToRemove =
-            //               filmProduction.FilmProductionGenres
-            //                   .FirstOrDefault(fpg =>
-            //                         fpg.GenreId == genre.Id
-            //                      );
-            //            _filmProductionGenreRepository.Delete(filmProductionGenreToRemove);
-            //        }
-            //    }
-            //}
+            foreach (var genre in allGenres)
+            {
+                if (selectedGenresIds.Contains(genre.Id))
+                {
+                    if (!genresOfAFilmProduction.Contains(genre.Id))
+                    {
+                        filmProduction.FilmProductionGenres.Add(new FilmProductionGenre
+                        {
+                            FilmProductionId = filmProduction.Id,
+                            GenreId = genre.Id
+                        });
+                    }
+                }
+                else
+                {
+                    if (genresOfAFilmProduction.Contains(genre.Id))
+                    {
+                        FilmProductionGenre filmProductionGenreToRemove =
+                           filmProduction.FilmProductionGenres
+                               .FirstOrDefault(fpg =>
+                                     fpg.GenreId == genre.Id
+                                  );
+                        _filmProductionGenreRepository.Delete(filmProductionGenreToRemove);
+                    }
+                }
+            }
 
             if (selectedActors == null)
             {
@@ -679,35 +680,35 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                     filmProduction.FilmProductionDirectors.Select(fa => fa.Director.Id)
                 );
 
-            //var allDirectors = _directorRepository.GetAllAsNoTracking();
+            var allDirectors = _directorRepository.GetAllAsNoTracking();
 
-            //foreach (var director in allDirectors)
-            //{
-            //    if (selectedDirectorsIds.Contains(director.Id))
-            //    {
-            //        if (!directorsOfAFilmProduction.Contains(director.Id))
-            //        {
-            //            filmProduction.FilmProductionDirectors.Add(new FilmProductionDirector
-            //            {
-            //                FilmProductionId = filmProduction.Id,
-            //                DirectorId = director.Id
-            //            });
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (directorsOfAFilmProduction.Contains(director.Id))
-            //        {
-            //            FilmProductionDirector filmProductionDirectorToRemove =
-            //                filmProduction.FilmProductionDirectors
-            //                        .FirstOrDefault(fp =>
-            //                            fp.DirectorId == director.Id
-            //                        );
+            foreach (var director in allDirectors)
+            {
+                if (selectedDirectorsIds.Contains(director.Id))
+                {
+                    if (!directorsOfAFilmProduction.Contains(director.Id))
+                    {
+                        filmProduction.FilmProductionDirectors.Add(new FilmProductionDirector
+                        {
+                            FilmProductionId = filmProduction.Id,
+                            DirectorId = director.Id
+                        });
+                    }
+                }
+                else
+                {
+                    if (directorsOfAFilmProduction.Contains(director.Id))
+                    {
+                        FilmProductionDirector filmProductionDirectorToRemove =
+                            filmProduction.FilmProductionDirectors
+                                    .FirstOrDefault(fp =>
+                                        fp.DirectorId == director.Id
+                                    );
 
-            //            _filmProductonDirectorRepository.Delete(filmProductionDirectorToRemove);
-            //        }
-            //    }
-            //}
+                        _filmProductonDirectorRepository.Delete(filmProductionDirectorToRemove);
+                    }
+                }
+            }
 
             if (selectedScreenwriters == null)
             {
@@ -721,36 +722,36 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                     filmProduction.FilmProductionScreenwriters.Select(fa => fa.Screenwriter.Id)
                 );
 
-            //var allScreenwriters = _screenwriterRepository.GetAllAsNoTracking();
+            var allScreenwriters = _screenwriterRepository.GetAllAsNoTracking();
 
-            //foreach (var screenwriter in allScreenwriters)
-            //{
-            //    if (selectedScreenwritersIds.Contains(screenwriter.Id))
-            //    {
-            //        if (!screenwritersOfAFilmProduction.Contains(screenwriter.Id))
-            //        {
-            //            filmProduction.FilmProductionScreenwriters.Add(new FilmProductionScreenwriter
-            //            {
-            //                FilmProductionId = filmProduction.Id,
-            //                ScreenwriterId = screenwriter.Id
-            //            });
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (screenwritersOfAFilmProduction.Contains(screenwriter.Id))
-            //        {
-            //            FilmProductionScreenwriter filmProductionScreenwriterToRemove =
-            //                filmProduction.FilmProductionScreenwriters
-            //                        .FirstOrDefault(fp =>
-            //                            fp.ScreenwriterId == screenwriter.Id
-            //                        );
+            foreach (var screenwriter in allScreenwriters)
+            {
+                if (selectedScreenwritersIds.Contains(screenwriter.Id))
+                {
+                    if (!screenwritersOfAFilmProduction.Contains(screenwriter.Id))
+                    {
+                        filmProduction.FilmProductionScreenwriters.Add(new FilmProductionScreenwriter
+                        {
+                            FilmProductionId = filmProduction.Id,
+                            ScreenwriterId = screenwriter.Id
+                        });
+                    }
+                }
+                else
+                {
+                    if (screenwritersOfAFilmProduction.Contains(screenwriter.Id))
+                    {
+                        FilmProductionScreenwriter filmProductionScreenwriterToRemove =
+                            filmProduction.FilmProductionScreenwriters
+                                    .FirstOrDefault(fp =>
+                                        fp.ScreenwriterId == screenwriter.Id
+                                    );
 
-            //            _filmProductionScreenwriterRepository
-            //                    .Delete(filmProductionScreenwriterToRemove);
-            //        }
-            //    }
-            //}
+                        _filmProductionScreenwriterRepository
+                                .Delete(filmProductionScreenwriterToRemove);
+                    }
+                }
+            }
         }
     }
 }
