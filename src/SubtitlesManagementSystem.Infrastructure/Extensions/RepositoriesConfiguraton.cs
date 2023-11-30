@@ -27,6 +27,8 @@ namespace SubtitlesManagementSystem.Infrastructure.Extensions
             serviceCollection.AddScoped<IFilmProductionGenreRepository, FilmProductionGenreRepository>();
             serviceCollection.AddScoped<ISubtitlesRepository, SubtitlesRepository>();
             serviceCollection.AddScoped<ISubtitlesFilesRepository, SubtitlesFilesRepository>();
+            serviceCollection.AddScoped<ICommentRepository, CommentRepository>();
+            serviceCollection.AddScoped<IFavouritesRepository, FavouritesRepository>();
         }
     }
 }

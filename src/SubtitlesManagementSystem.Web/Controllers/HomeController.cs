@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SubtitlesManagementSystem.Web.Models;
 using System.Diagnostics;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
-    public class HomeController : Controller
+    [AllowAnonymous]
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -15,7 +17,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction(nameof(Index), "SubtitlesCatalogue");
         }
 
         public IActionResult Privacy()
