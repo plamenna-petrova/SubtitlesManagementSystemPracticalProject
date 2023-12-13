@@ -16,6 +16,7 @@ using SubtitlesManagementSystem.Web.Models.Actors.ViewModels;
 using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -32,11 +33,57 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             IEnumerable<AllActorsViewModel> allActorsViewModel = _actorService.GetAllActors();
 
-            return View(allActorsViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["ActorFirstNameSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "actor_first_name_descending"
+                : "";
+            ViewData["ActorLastNameSort"] = sortOrder == "actor_last_name_ascending"
+                ? "actor_last_name_descending"
+                : "actor_last_name_ascending";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["ActorSearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allActorsViewModel = allActorsViewModel
+                        .Where(aavm =>
+                            aavm.FirstName.ToLower().Contains(searchTerm.ToLower()) ||
+                            aavm.LastName.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allActorsViewModel = sortOrder switch
+            {
+                "actor_first_name_descending" => allActorsViewModel
+                        .OrderByDescending(aavm => aavm.FirstName),
+                "actor_last_name_ascending" => allActorsViewModel
+                        .OrderBy(aavm => aavm.LastName),
+                "actor_last_name_descending" => allActorsViewModel
+                        .OrderByDescending(aavm => aavm.LastName),
+                _ => allActorsViewModel.OrderBy(aavm => aavm.FirstName)
+            };
+
+            pageSize ??= 3;
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var actorsPaginatedList = PaginatedList<AllActorsViewModel>
+                .Create(allActorsViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(actorsPaginatedList);
         }
 
         [Authorize(Roles = "Administrator, Editor")]

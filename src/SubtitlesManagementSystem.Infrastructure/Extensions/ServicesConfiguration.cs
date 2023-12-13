@@ -12,6 +12,7 @@ using SubtitlesManagementSystem.Business.Services.Languages;
 using SubtitlesManagementSystem.Business.Services.Screenwriters;
 using SubtitlesManagementSystem.Business.Services.Subtitles;
 using SubtitlesManagementSystem.Business.Services.SubtitlesCatalogue;
+using SubtitlesManagementSystem.Business.Services.Users;
 using SubtitlesManagementSystem.Business.Transactions.Implementation;
 using SubtitlesManagementSystem.Business.Transactions.Interfaces;
 using System;
@@ -39,6 +40,7 @@ namespace SubtitlesManagementSystem.Infrastructure.Extensions
             serviceCollection.AddTransient<ICommentService, CommentService>();
             serviceCollection.AddTransient<IFavouritesService, FavouritesService>();
             serviceCollection.AddTransient<ISubtitlesCatalogueService, SubtitlesCatalogueService>();
+            serviceCollection.AddTransient<IUserService, UserService>();
         }
     }
 }

@@ -37,13 +37,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index(
-            string sortOrder,
-            string currentFilter,
-            string searchTerm,
-            int? pageSize,
-            int? pageNumber
-        )
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

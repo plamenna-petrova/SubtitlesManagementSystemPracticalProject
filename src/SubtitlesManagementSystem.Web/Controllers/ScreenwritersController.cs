@@ -15,6 +15,7 @@ using SubtitlesManagementSystem.Web.Models.Screenwriters.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Screenwriters.ViewModels;
 using System.Data;
 using System.Security.Claims;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -34,11 +35,60 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             IEnumerable<AllScreenwritersViewModel> allScreenwritersViewModel = _screenwriterService.GetAllScreenwriters();
 
-            return View(allScreenwritersViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["ScreenwriterFirstNameSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "screenwriter_first_name_descending"
+                : "";
+            ViewData["ScreenwriterLastNameSort"] = sortOrder == "screenwriter_last_name_ascending"
+                ? "screenwriter_last_name_descending"
+                : "screenwriter_last_name_ascending";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["ScreenwriterSearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allScreenwritersViewModel = allScreenwritersViewModel
+                        .Where(asvm =>
+                            asvm.FirstName.ToLower().Contains(searchTerm.ToLower()) ||
+                            asvm.LastName.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allScreenwritersViewModel = sortOrder switch
+            {
+                "screenwriter_first_name_descending" => allScreenwritersViewModel
+                        .OrderByDescending(asvm => asvm.FirstName),
+                "screenwriter_last_name_ascending" => allScreenwritersViewModel
+                        .OrderBy(asvm => asvm.LastName),
+                "screenwriter_last_name_descending" => allScreenwritersViewModel
+                        .OrderByDescending(asvm => asvm.LastName),
+                _ => allScreenwritersViewModel.OrderBy(asvm => asvm.FirstName)
+            };
+
+            if (pageSize == null)
+            {
+                pageSize = 3;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var screenwritersPaginatedList = PaginatedList<AllScreenwritersViewModel>
+                .Create(allScreenwritersViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(screenwritersPaginatedList);
         }
 
         [Authorize(Roles = "Administrator, Editor")]

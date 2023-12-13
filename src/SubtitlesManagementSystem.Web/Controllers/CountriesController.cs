@@ -15,6 +15,7 @@ using SubtitlesManagementSystem.Business.Transactions.Interfaces;
 using SubtitlesManagementSystem.Web.Models.Countries.ViewModels;
 using SubtitlesManagementSystem.Web.Models.Countries.BindingModels;
 using SubtitlesManagementSystem.Common.GlobalConstants;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -38,12 +39,52 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize,int? pageNumber)
         {
-            IEnumerable<AllCountriesViewModel> allCountriesViewModel = 
-                _countryService.GetAllCountriesWithRelatedData();
+            IEnumerable<AllCountriesViewModel> allCountriesViewModel = _countryService.GetAllCountriesWithRelatedData();
 
-            return View(allCountriesViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CountryNameSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "country_name_descending"
+                : "";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["CountrySearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allCountriesViewModel = allCountriesViewModel
+                        .Where(acvm =>
+                            acvm.Name.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allCountriesViewModel = sortOrder switch
+            {
+                "country_name_descending" => allCountriesViewModel
+                        .OrderByDescending(acvm => acvm.Name),
+                _ => allCountriesViewModel.OrderBy(acvm => acvm.Name)
+            };
+
+            if (pageSize == null)
+            {
+                pageSize = 3;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var countriesPaginatedList = PaginatedList<AllCountriesViewModel>
+                .Create(allCountriesViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(countriesPaginatedList);
         }
 
         [Authorize(Roles = "Administrator, Editor")]

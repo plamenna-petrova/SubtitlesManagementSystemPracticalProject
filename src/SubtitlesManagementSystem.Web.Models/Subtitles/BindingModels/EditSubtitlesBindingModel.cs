@@ -15,6 +15,6 @@ namespace SubtitlesManagementSystem.Web.Models.Subtitles.BindingModels
 
         public string FilmProductionId { get; set; }
 
-        public List<IFormFile> Files { get; set; }
+        public List<IFormFile>? Files { get; set; }
     }
 }

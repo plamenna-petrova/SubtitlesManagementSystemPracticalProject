@@ -18,6 +18,7 @@ using System.Data;
 using System.Security.Claims;
 using SubtitlesManagementSystem.Business.Services.Languages;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -49,12 +50,69 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             IEnumerable<AllFilmProductionsViewModel> allFilmProductionsViewModel =
                 _filmProductionService.GetAllFilmProductionsWithRelatedData();
 
-            return View(allFilmProductionsViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["FilmProductionTitleSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "film_production_title_descending"
+                : "";
+            ViewData["FilmProductionDurationSort"] = sortOrder ==
+              "film_production_duration_ascending"
+                ? "film_production_duration_descending"
+                : "film_production_duration_ascending";
+            ViewData["FilmProductionReleaseDateSort"] = sortOrder ==
+              "film_production_release_date_ascending"
+                ? "film_production_release_date_descending"
+                : "film_production_release_date_ascending";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["FilmProductionSearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allFilmProductionsViewModel = allFilmProductionsViewModel
+                        .Where(afpvm =>
+                            afpvm.Title.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allFilmProductionsViewModel = sortOrder switch
+            {
+                "film_production_title_descending" => allFilmProductionsViewModel
+                        .OrderByDescending(afpvm => afpvm.Title),
+                "film_production_duration_ascending" => allFilmProductionsViewModel
+                        .OrderBy(afpvm => afpvm.Duration),
+                "film_production_duration_descending" => allFilmProductionsViewModel
+                        .OrderByDescending(afpvm => afpvm.Duration),
+                "film_production_release_date_ascending" => allFilmProductionsViewModel
+                        .OrderBy(afpvm => afpvm.ReleaseDate),
+                "film_production_release_date_descending" => allFilmProductionsViewModel
+                        .OrderByDescending(afpvm => afpvm.ReleaseDate),
+                _ => allFilmProductionsViewModel.OrderBy(afpvm => afpvm.Title)
+            };
+
+            if (pageSize == null)
+            {
+                pageSize = 3;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var filmProductionsPaginatedList = PaginatedList<AllFilmProductionsViewModel>
+                .Create(allFilmProductionsViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(filmProductionsPaginatedList);
         }
 
         [Authorize(Roles = "Administrator, Editor")]

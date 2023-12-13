@@ -15,6 +15,7 @@ using SubtitlesManagementSystem.Web.Models.Directors.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Directors.ViewModels;
 using System.Data;
 using System.Security.Claims;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -31,11 +32,60 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             IEnumerable<AllDirectorsViewModel> allDirectorsViewModel = _directorService.GetAllDirectors();
 
-            return View(allDirectorsViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["DirectorFirstNameSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "director_first_name_descending"
+                : "";
+            ViewData["DirectorLastNameSort"] = sortOrder == "director_last_name_ascending"
+                ? "director_last_name_descending"
+                : "director_last_name_ascending";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["DirectorSearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allDirectorsViewModel = allDirectorsViewModel
+                        .Where(advm =>
+                            advm.FirstName.ToLower().Contains(searchTerm.ToLower()) ||
+                            advm.LastName.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allDirectorsViewModel = sortOrder switch
+            {
+                "director_first_name_descending" => allDirectorsViewModel
+                        .OrderByDescending(advm => advm.FirstName),
+                "director_last_name_ascending" => allDirectorsViewModel
+                        .OrderBy(advm => advm.LastName),
+                "director_last_name_descending" => allDirectorsViewModel
+                        .OrderByDescending(advm => advm.LastName),
+                _ => allDirectorsViewModel.OrderBy(advm => advm.FirstName)
+            };
+
+            if (pageSize == null)
+            {
+                pageSize = 3;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var directorsPaginatedList = PaginatedList<AllDirectorsViewModel>
+                .Create(allDirectorsViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(directorsPaginatedList);
         }
 
         [Authorize(Roles = "Administrator, Editor")]

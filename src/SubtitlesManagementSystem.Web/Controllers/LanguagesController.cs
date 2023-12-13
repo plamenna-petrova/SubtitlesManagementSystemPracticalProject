@@ -15,6 +15,7 @@ using SubtitlesManagementSystem.Web.Models.Languages.ViewModels;
 using System.Data;
 using System.Security.Claims;
 using SubtitlesManagementSystem.Business.Services.Languages;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -38,11 +39,52 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             IEnumerable<AllLanguagesViewModel> allLanguagesViewModel = _languageService.GetAllLanguagesWithRelatedData();
 
-            return View(allLanguagesViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["LanguageNameSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "language_name_descending"
+                : "";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["LanguageSearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allLanguagesViewModel = allLanguagesViewModel
+                        .Where(alvm =>
+                            alvm.Name.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allLanguagesViewModel = sortOrder switch
+            {
+                "language_name_descending" => allLanguagesViewModel
+                        .OrderByDescending(alvm => alvm.Name),
+                _ => allLanguagesViewModel.OrderBy(alvm => alvm.Name)
+            };
+
+            if (pageSize == null)
+            {
+                pageSize = 3;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var languagesPaginatedList = PaginatedList<AllLanguagesViewModel>
+                .Create(allLanguagesViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(languagesPaginatedList);
         }
 
         [Authorize(Roles = "Administrator, Editor")]

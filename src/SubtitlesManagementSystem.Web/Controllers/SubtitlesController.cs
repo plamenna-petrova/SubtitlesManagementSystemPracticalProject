@@ -16,6 +16,7 @@ using SubtitlesManagementSystem.Web.Models.Subtitles.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Subtitles.ViewModels;
 using System.Data;
 using System.Security.Claims;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -39,11 +40,52 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor, Uploader")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             IEnumerable<AllSubtitlesViewModel> allSubtitlesViewModel = _subtitlesService.GetAllSubtitles();
 
-            return View(allSubtitlesViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["SubtitlesNameSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "subtitles_name_descending"
+                : "";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["SubtitlesSearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allSubtitlesViewModel = allSubtitlesViewModel
+                        .Where(aavm =>
+                            aavm.Name.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allSubtitlesViewModel = sortOrder switch
+            {
+                "subtitles_name_descending" => allSubtitlesViewModel
+                        .OrderByDescending(aavm => aavm.Name),
+                _ => allSubtitlesViewModel.OrderBy(aavm => aavm.Name)
+            };
+
+            if (pageSize == null)
+            {
+                pageSize = 3;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var subtitlesPaginatedList = PaginatedList<AllSubtitlesViewModel>
+                .Create(allSubtitlesViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(subtitlesPaginatedList);
         }
 
 
@@ -151,23 +193,6 @@ namespace SubtitlesManagementSystem.Web.Controllers
                 .Select(s => s.FilmProduction.Id)
                     .ToList();
 
-            List<FilmProduction> allFilmProductionsForSelectList = new List<FilmProduction>();
-
-            foreach (var filmProduction in allFilmProductions)
-            {
-                if (!allFilmProductionsIdsBySubtitles.Contains(filmProduction.Id))
-                {
-                    allFilmProductionsForSelectList.Add(filmProduction);
-                }
-            }
-
-            if (allFilmProductionsForSelectList.Count > 0)
-            {
-                ViewData["FilmProductionByTitle"] = new SelectList(
-                    allFilmProductionsForSelectList, "Id", "Title"
-                );
-            }
-
             var subtitlesFilesBySubtitlesId = _subtitlesService.GetSubtitlesFilesBySubtitlesId(editSubtitlesBindingModel.Id);
 
             if (subtitlesFilesBySubtitlesId.Any())
@@ -190,23 +215,6 @@ namespace SubtitlesManagementSystem.Web.Controllers
                 .Select(s => s.FilmProduction.Id)
                     .ToList();
 
-            List<FilmProduction> allFilmProductionsForSelectList = new List<FilmProduction>();
-
-            foreach (var filmProduction in allFilmProductions)
-            {
-                if (!allFilmProductionsIdsBySubtitles.Contains(filmProduction.Id))
-                {
-                    allFilmProductionsForSelectList.Add(filmProduction);
-                }
-            }
-
-            if (allFilmProductionsForSelectList.Count > 0)
-            {
-                ViewData["FilmProductionByTitle"] = new SelectList(
-                    allFilmProductionsForSelectList, "Id", "Title"
-                );
-            }
-
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             _subtitlesService.EditSubtitles(editSubtitlesBindingModel, userId);
@@ -215,14 +223,6 @@ namespace SubtitlesManagementSystem.Web.Controllers
 
             if (!areCurrentSubtitlesSavedToDatabase)
             {
-                if (allFilmProductionsForSelectList.Count > 0)
-                {
-                    ViewData["FilmProductionByTitle"] = new SelectList(
-                         allFilmProductionsForSelectList,
-                         "Id", "Title", editSubtitlesBindingModel.FilmProductionId
-                    );
-                }
-
                 TempData["SubtitlesErrorMessage"] = string.Format(
                     NotificationMessages.RecordFailedUpdateSaveErrorMessage,
                         "subtitles");

@@ -7,6 +7,7 @@ using SubtitlesManagementSystem.Common.GlobalConstants;
 using SubtitlesManagementSystem.Web.Models.Genres.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Genres.ViewModels;
 using System.Security.Claims;
+using SubtitlesManagementSystem.Common.Helpers;
 
 namespace SubtitlesManagementSystem.Web.Controllers
 {
@@ -23,11 +24,52 @@ namespace SubtitlesManagementSystem.Web.Controllers
         }
 
         [Authorize(Roles = "Administrator, Editor")]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchTerm, int? pageSize, int? pageNumber)
         {
             IEnumerable<AllGenresViewModel> allGenresViewModel = _genreService.GetAllGenres();
 
-            return View(allGenresViewModel);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["GenreNameSort"] = string.IsNullOrEmpty(sortOrder)
+                ? "genre_name_descending"
+                : "";
+
+            if (searchTerm != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchTerm = currentFilter;
+            }
+
+            ViewData["GenreSearchFilter"] = searchTerm;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allGenresViewModel = allGenresViewModel
+                        .Where(acvm =>
+                            acvm.Name.ToLower().Contains(searchTerm.ToLower())
+                        );
+            }
+
+            allGenresViewModel = sortOrder switch
+            {
+                "genre_name_descending" => allGenresViewModel
+                        .OrderByDescending(acvm => acvm.Name),
+                _ => allGenresViewModel.OrderBy(acvm => acvm.Name)
+            };
+
+            if (pageSize == null)
+            {
+                pageSize = 3;
+            }
+
+            ViewData["CurrentPageSize"] = pageSize;
+
+            var genresPaginatedList = PaginatedList<AllGenresViewModel>
+                .Create(allGenresViewModel, pageNumber ?? 1, (int)pageSize);
+
+            return View(genresPaginatedList);
         }
 
         [Authorize(Roles = "Administrator, Editor")]
