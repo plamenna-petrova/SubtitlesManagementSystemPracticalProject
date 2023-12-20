@@ -118,8 +118,7 @@ namespace SubtitlesManagementSystem.Business.Services.Subtitles
 
             string wwwRootPath = _hostingEnvironment.WebRootPath;
 
-            string directoryName = Path
-                .GetDirectoryName(@$"{wwwRootPath}\archives\subtitles\{createSubtitlesBindingModel.FilmProductionId}\");
+            string directoryName = Path.GetDirectoryName(@$"{wwwRootPath}\archives\subtitles\{createSubtitlesBindingModel.FilmProductionId}\");
 
             Directory.CreateDirectory(directoryName);
 
@@ -205,8 +204,7 @@ namespace SubtitlesManagementSystem.Business.Services.Subtitles
 
                 string wwwRootPath = _hostingEnvironment.WebRootPath;
 
-                string subtitlesForFilmProductionDirectoryName = Path
-                    .GetDirectoryName(@$"{wwwRootPath}\archives\subtitles\{relatedFilmProduction.Id}\");
+                string subtitlesForFilmProductionDirectoryName = Path.GetDirectoryName(@$"{wwwRootPath}\archives\subtitles\{relatedFilmProduction.Id}\");
 
                 if (!Directory.Exists(subtitlesForFilmProductionDirectoryName))
                 {

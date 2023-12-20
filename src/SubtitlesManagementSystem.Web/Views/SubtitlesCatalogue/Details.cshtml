@@ -1,118 +1,157 @@
-﻿@model SubtitlesManagementSystem.Web.Models.SubtitlesCatalogue.SubtitlesCatalogueItemDetailsViewModel
+﻿@using System.Globalization
+@model SubtitlesManagementSystem.Web.Models.SubtitlesCatalogue.SubtitlesCatalogueItemDetailsViewModel
 
-@if (TempData["SubtitlesCatalogueInfoMessage"] != null)
-{
-    <div class="alert alert-info" role="alert">
-        @TempData["SubtitlesCatalogueInfoMessage"]
+<section class="meetings-page" id="meetings">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="meeting-single-item">
+                            <div class="thumb">
+                                @if (Model.CreatedOn != new DateTime() || Model.ModifiedOn != null)
+                                {
+                                    <div class="date">
+                                        @{
+                                            var subtitlesUploadedOnAbbreviatedMonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(Model.ModifiedOn.Value.Month);
+                                        }
+                                        <h6>
+                                            @Html.DisplayFor(subtitlesModelItem => subtitlesUploadedOnAbbreviatedMonthName)
+                                            <span>@Html.DisplayFor(model => model.ModifiedOn!.Value.Day)</span>
+                                        </h6>
+                                    </div>
+                                }
+                                <a asp-action="Details" asp-route-id="@Model.Id">
+                                    @if (Model.RelatedFilmProduction.ImageName != null)
+                                    {
+                                        <img src="~/images/film-productions/@Model.RelatedFilmProduction.ImageName"
+                                             class="rounded-square"
+                                             asp-append-version="true" style="width: 100%; height: 600px;" />
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/film-productions/istockphoto-1147544807-612x612.jpg" style="width: 100%; height: 600px;" />
+                                    }
+                                </a>
+                            </div>
+                            <div class="down-content">
+                                <h2 class="text-danger">Film Production: @Html.DisplayFor(model => model.RelatedFilmProduction.Title)</h2>
+                                <dl class="row bg-secondary mt-3">
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                        @Html.DisplayNameFor(model => model.CreatedOn)
+                                    </dt>
+                                    <dd class="col-sm-9 text-white">
+                                        @Html.DisplayFor(model => model.CreatedOn)
+                                    </dd>
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                        Uploaded By
+                                    </dt>
+                                    <dd class="col-sm-9 text-white">
+                                        @Html.DisplayFor(model => model.UploaderUserName)
+                                    </dd>
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                        Release Date
+                                    </dt>
+                                    <dd class="col-sm-9 text-white">
+                                        @Model.RelatedFilmProduction.ReleaseDate.ToShortDateString()
+                                    </dd>
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                        Duration
+                                    </dt>
+                                    <dd class="col-sm-9 text-white">
+                                        @Html.DisplayFor(model => model.RelatedFilmProduction.Duration)
+                                    </dd>
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                        Country
+                                    </dt>
+                                    <dd class="col-sm-9 text-white">
+                                        @Html.DisplayFor(model => model.RelatedFilmProduction.CountryName)
+                                    </dd>
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                        Language
+                                    </dt>
+                                    <dd class="col-sm-9 text-white">
+                                        @Html.DisplayFor(model => model.RelatedFilmProduction.LanguageName)
+                                    </dd>
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                        @Html.DisplayNameFor(model => model.ModifiedOn)
+                                    </dt>
+                                    <dd class="col-sm-9 text-white">
+                                        @Html.DisplayFor(model => model.ModifiedOn)
+                                    </dd>
+                                </dl>
+                                <h3 class="mt-3">@Html.DisplayFor(model => model.Name)</h3>
+                                <p class="text-center">
+                                    <a class="btn btn-primary" asp-controller="SubtitlesCatalogue" asp-action="DownloadSubtitles" asp-route-id="@Model.Id">Download</a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <a class="btn btn-dark" asp-controller="SubtitlesCatalogue" asp-action="AddToFavourites" asp-route-id="@Model.Id">Add To Favourites</a>
+                                    }
+                                </p>
+                                <div class="row d-block w-100">
+                                    <div class="mt-5">
+                                        @foreach (var comment in Model.Comments)
+                                        {
+                                            @if (comment.Content != null)
+                                            {
+                                                <span class="badge bg-primary">By @comment.Username</span>
+                                                <span class="bg-secondary">@comment.CreatedOn</span>
+                                                <div class="alert alert-info" role="alert">
+                                                    @comment.Content
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="row d-block w-100">
+                                        <form asp-action="WriteComment" class="mt-5">
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                            <div>
+                                                <input type="hidden" asp-for="Id" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Comment</label>
+                                                <textarea asp-for="CommentContent" class="form-control" style="width: 100%;"></textarea>
+                                                <span asp-validation-for="CommentContent" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group mt-5">
+                                                <input type="submit" value="Write Comment" class="btn btn-primary" />
+                                            </div>
+                                            @if (TempData["SubtitlesCatalogueInfoMessage"] != null)
+                                            {
+                                                <div class="alert alert-info" role="alert">
+                                                    @TempData["SubtitlesCatalogueInfoMessage"]
+                                                </div>
+                                            }
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        <p>You must register / log in, in order to write comments</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="main-button-red">
+                            <a asp-controller="Home" asp-action="Index">Back To Subtitles Catalogue</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-}
-<div class="row">
-    <div class="col-lg-4">
-        @if (Model.RelatedFilmProduction.ImageName != null)
-        {
-            <img src="~/images/film-productions/@Model.RelatedFilmProduction.ImageName"
-                 class="rounded-square"
-                 asp-append-version="true" style="width: 100%; height: 400px;" />
-            <br />
-        }
-        else
-        {
-            <img src="~/images/film-productions/istockphoto-1147544807-612x612.jpg" style="width: 100%; height: 400px;" />
-        }
-    </div>
-    <div class="col-lg-8">
-        <h1 class="text-primary">@Html.DisplayFor(model => model.RelatedFilmProduction.Title)</h1>
-        <dl class="row bg-secondary">
-            <dt class="col-sm-3 text-white bg-info font-weight-normal">
-                @Html.DisplayNameFor(model => model.CreatedOn)
-            </dt>
-            <dd class="col-sm-9 text-white">
-                @Html.DisplayFor(model => model.CreatedOn)
-            </dd>
-            <dt class="col-sm-3 text-white bg-info font-weight-normal">
-                Uploaded By
-            </dt>
-            <dd class="col-sm-9 text-white">
-                @Html.DisplayFor(model => model.UploaderUserName)
-            </dd>
-            <dt class="col-sm-3 text-white bg-info font-weight-normal">
-                Release Date
-            </dt>
-            <dd class="col-sm-9 text-white">
-                @Model.RelatedFilmProduction.ReleaseDate.ToShortDateString()
-            </dd>
-            <dt class="col-sm-3 text-white bg-info font-weight-normal">
-                Duration
-            </dt>
-            <dd class="col-sm-9 text-white">
-                @Html.DisplayFor(model => model.RelatedFilmProduction.Duration)
-            </dd>
-            <dt class="col-sm-3 text-white bg-info font-weight-normal">
-                Country
-            </dt>
-            <dd class="col-sm-9 text-white">
-                @Html.DisplayFor(model => model.RelatedFilmProduction.CountryName)
-            </dd>
-            <dt class="col-sm-3 text-white bg-info font-weight-normal">
-                Language
-            </dt>
-            <dd class="col-sm-9 text-white">
-                @Html.DisplayFor(model => model.RelatedFilmProduction.LanguageName)
-            </dd>
-            <dt class="col-sm-3 text-white bg-info font-weight-normal">
-                @Html.DisplayNameFor(model => model.ModifiedOn)
-            </dt>
-            <dd class="col-sm-9 text-white">
-                @Html.DisplayFor(model => model.ModifiedOn)
-            </dd>
-        </dl>
-        <h3>@Html.DisplayFor(model => model.Name)</h3>
-        <p class="text-center">
-            <a class="btn btn-primary" asp-controller="SubtitlesCatalogue" asp-action="DownloadSubtitles" asp-route-id="@Model.Id">Download</a>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a class="btn btn-dark" asp-controller="SubtitlesCatalogue" asp-action="AddToFavourites" asp-route-id="@Model.Id">Add To Favourites</a>
-            }
+    <div class="footer">
+        <p>
+            Copyright © 2023 Subsogator, Ltd. All Rights Reserved.
+            Distibuted By: Subtitles Management System
         </p>
     </div>
-</div>
-<div class="row d-block w-100">
-    <div class="mt-5">
-        @foreach (var comment in Model.Comments)
-        {
-            @if (comment.Content != null)
-            {
-                <span class="badge bg-primary">By @comment.Username</span>
-                <span class="bg-secondary">@comment.CreatedOn</span>
-                <div class="alert alert-info" role="alert">
-                    @comment.Content
-                </div>
-            }
-        }
-    </div>
-</div>
-@if (User.Identity.IsAuthenticated)
-{
-    <div class="row d-block w-100">
-        <form asp-action="WriteComment" class="mt-5">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div>
-                <input type="hidden" asp-for="Id" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Comment</label>
-                <textarea asp-for="CommentContent" class="form-control" style="width: 100%;"></textarea>
-                <span asp-validation-for="CommentContent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Write Comment" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-}
-else
-{
-    <div class="alert alert-danger" role="alert">
-        <p>You must register / log in, in order to write comments</p>
-    </div>
-}
+</section>

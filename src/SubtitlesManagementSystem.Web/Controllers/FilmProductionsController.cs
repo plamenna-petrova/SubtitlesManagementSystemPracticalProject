@@ -102,10 +102,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
                 _ => allFilmProductionsViewModel.OrderBy(afpvm => afpvm.Title)
             };
 
-            if (pageSize == null)
-            {
-                pageSize = 3;
-            }
+            pageSize ??= 3;
 
             ViewData["CurrentPageSize"] = pageSize;
 

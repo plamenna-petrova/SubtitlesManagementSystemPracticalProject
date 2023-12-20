@@ -4,67 +4,80 @@
     ViewData["Title"] = "Create New Actor";
 }
 
-<h3>@ViewData["Title"]</h3>
-<hr />
-@if (TempData["ActorErrorMessage"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["ActorErrorMessage"]
-    </div>
-}
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <span>Film Productions</span>
-                <div class="col-md-10 pl-0">
-                    <table>
-                        <tr>
-                            @{
-                                int counter = 0;
+<section class="meetings-page" id="meetings">
+    <h3>@ViewData["Title"]</h3>
 
-                                foreach (var filmProduction in Model.AssignedFilmProductions)
-                                {
-                                    if (counter++ % 2 == 0)
-                                    {
-                                    @:</tr><tr>
-                                    }
-                                    @:<td>
-                                        <input type="checkbox"
-                                               name="selectedFilmProductions"
-                                               value="@filmProduction.FilmProductionId"
-                                               @(Html.Raw(filmProduction.IsAssigned 
-                                                        ? "checked=\"checked\"" 
-                                                        : "")) />
-                                               @filmProduction.Title
-                                    @:</td>
-                                } 
-                            @:</tr>
-                            }
-                        </table>
+    @if (TempData["ActorErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ActorErrorMessage"]
+        </div>
+    }
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label text-light"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
-    </div>
-</div>
+                    <div class="form-group mt-3">
+                        <label asp-for="LastName" class="control-label text-light"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span>Film Productions</span>
+                        <div class="col-md-10 pl-0">
+                            <table>
+                                <tr>
+                                    @{
+                                        int counter = 0;
 
-<div>
-    <a asp-action="Index" class="btn btn-secondary">Back to Actors List</a>
-</div>
+                                        foreach (var filmProduction in Model.AssignedFilmProductions)
+                                        {
+                                            if (counter++ % 2 == 0)
+                                            {
+                                            @:</tr><tr>
+                                            }
+                                            @:<td class="text-light">
+                                                <input type="checkbox"
+                                                       name="selectedFilmProductions"
+                                                       value="@filmProduction.FilmProductionId"
+                                                       class="text-light"
+                                                       @(Html.Raw(filmProduction.IsAssigned 
+                                                                ? "checked=\"checked\"" 
+                                                                : "")) />
+                                                       @filmProduction.Title
+                                            @:</td>
+                                        } 
+                                    @:</tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                </form>
+            </div>
+        </div>
+    
+        <div>
+            <a asp-action="Index" class="btn btn-secondary mt-5">Back to Actors List</a>
+        </div>
+
+        <div class="footer">
+            <p>
+                Copyright © 2023 Subsogator, Ltd. All Rights Reserved.
+                Distibuted By: Subsogator
+            </p>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

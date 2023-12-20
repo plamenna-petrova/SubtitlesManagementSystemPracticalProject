@@ -91,10 +91,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
                 _ => allUserFavouritesViewModel.OrderBy(aufvm => aufvm.Name)
             };
 
-            if (pageSize == null)
-            {
-                pageSize = 3;
-            }
+            pageSize ??= 3;
 
             ViewData["CurrentPageSize"] = pageSize;
 

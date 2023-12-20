@@ -75,10 +75,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
                 _ => allSubtitlesViewModel.OrderBy(aavm => aavm.Name)
             };
 
-            if (pageSize == null)
-            {
-                pageSize = 3;
-            }
+            pageSize ??= 3;
 
             ViewData["CurrentPageSize"] = pageSize;
 

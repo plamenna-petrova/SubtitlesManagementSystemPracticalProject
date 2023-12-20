@@ -267,10 +267,7 @@ namespace SubtitlesManagementSystem.Business.Services.Actors
             return assignedFilmProductionDataViewModel;
         }
 
-        private void UpdateFilmProductionActorsByActor(
-            string[] selectedFilmProductions,
-            Actor actor
-        )
+        private void UpdateFilmProductionActorsByActor(string[] selectedFilmProductions, Actor actor)
         {
             if (selectedFilmProductions == null)
             {

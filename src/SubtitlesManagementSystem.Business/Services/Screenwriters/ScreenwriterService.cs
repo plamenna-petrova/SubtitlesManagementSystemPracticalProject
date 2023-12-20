@@ -266,10 +266,7 @@ namespace SubtitlesManagementSystem.Business.Services.Screenwriters
             return assignedFilmProductionDataViewModel;
         }
 
-        private void UpdateFilmProductionScreenwritersByScreenwriter(
-           string[] selectedFilmProductions,
-           Screenwriter screenwriter
-       )
+        private void UpdateFilmProductionScreenwritersByScreenwriter(string[] selectedFilmProductions, Screenwriter screenwriter)
         {
             if (selectedFilmProductions == null)
             {

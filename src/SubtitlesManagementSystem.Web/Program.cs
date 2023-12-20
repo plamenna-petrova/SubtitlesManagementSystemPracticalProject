@@ -1,9 +1,8 @@
 using Data.DataAccess;
 using Data.DataModels.Entities.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using SubtitlesManagementSystem.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +46,19 @@ else
 }
 
 webApplication.UseHttpsRedirection();
+
+var supportedCultures = new[]
+{
+   new CultureInfo("en-US")
+};
+
+webApplication.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
+
 webApplication.UseStaticFiles();
 
 webApplication.UseRouting();

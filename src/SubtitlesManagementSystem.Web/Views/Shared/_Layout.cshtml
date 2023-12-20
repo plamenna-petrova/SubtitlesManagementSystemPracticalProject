@@ -4,93 +4,141 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SubtitlesManagementSystem.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SubtitlesManagementSystem.Web.styles.css" asp-append-version="true" />
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="~/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="~/assets/css/templatemo-edu-meeting.css">
+    <link rel="stylesheet" href="~/assets/css/owl.css">
+    <link rel="stylesheet" href="~/assets/css/lightbox.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SubtitlesManagementSystem.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Favourites" asp-action="Index">Favourites</a>
-                            </li>
-                        }
-                        @if (User.IsInRole(AdministratorRoleName) || User.IsInRole(EditorRoleName) || User.IsInRole(UploaderRoleName))
-                        {
-                            <li class="nav-item">
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Dashboard
-                                    </button>
-                                    <ul class="dropdown-menu">
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Menu Start ***** -->
+                        <a asp-controller="Home" asp-action="Index" class="logo">
+                            Subsogator
+                        </a>
+                        <ul class="nav">
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a asp-area="" asp-controller="Favourites" asp-action="Index">Favourites</a></li>
+                            }
+                            @if (User.IsInRole(AdministratorRoleName) || User.IsInRole(EditorRoleName) || User.IsInRole(UploaderRoleName))
+                            {
+                                <li class="has-sub">
+                                    <a href="javascript:void(0)">Dashboard</a>
+                                    <ul class="sub-menu">
                                         @if (User.IsInRole(AdministratorRoleName) || User.IsInRole(EditorRoleName))
                                         {
                                             <li>
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Countries" asp-action="Index">Countries</a>
+                                                <a asp-area="" asp-controller="Countries" asp-action="Index">Countries</a>
                                             </li>
                                             <li>
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Genres" asp-action="Index">Genres</a>
+                                                <a asp-area="" asp-controller="Genres" asp-action="Index">Genres</a>
                                             </li>
                                             <li>
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Languages" asp-action="Index">Languages</a>
+                                                <a asp-area="" asp-controller="Languages" asp-action="Index">Languages</a>
                                             </li>
                                             <li>
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Actors" asp-action="Index">Actors</a>
+                                                <a asp-area="" asp-controller="Actors" asp-action="Index">Actors</a>
                                             </li>
                                             <li>
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Directors" asp-action="Index">Directors</a>
+                                                <a asp-area="" asp-controller="Directors" asp-action="Index">Directors</a>
                                             </li>
                                             <li>
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Screenwriters" asp-action="Index">Screenwriters</a>
+                                                <a asp-area="" asp-controller="Screenwriters" asp-action="Index">Screenwriters</a>
                                             </li>
                                             <li>
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="FilmProductions" asp-action="Index">Film Productions</a>
+                                                <a asp-area="" asp-controller="FilmProductions" asp-action="Index">Film Productions</a>
                                             </li>
                                             @if (User.IsInRole(AdministratorRoleName))
                                             {
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                                <li>
+                                                    <a asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                                </li>
                                             }
                                         }
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Subtitles" asp-action="Index">Subtitles</a>
+                                        <li>
+                                            <a asp-area="" asp-controller="Subtitles" asp-action="Index">Subtitles</a>
+                                        </li>
                                     </ul>
-                                </div>
-                            </li>
-                        }
-                        @if (User.IsInRole(NormalUserRole))
-                        {
-                            <li>
-                                <a asp-controller="Home" asp-action="BecomeAnUploader" class="btn btn-primary ml-3">Become An Uploader</a>
-                            </li>
-                        }
-                        @if (User.IsInRole(UploaderRoleName))
-                        {
-                            <li>
-                                <a asp-controller="Home" asp-action="BecomeAnEditor" class="btn btn-primary ml-3">Become An Editor</a>
-                            </li>
-                        }
-                    </ul>
-                    <partial name="_LoginPartial" />
+                                </li>
+                            }
+                            @if (User.IsInRole(NormalUserRole))
+                            {
+                                <li>
+                                    <a asp-controller="Home" asp-action="BecomeAnUploader">Become An Uploader</a>
+                                </li>
+                            }
+                            @if (User.IsInRole(UploaderRoleName))
+                            {
+                                <li>
+                                    <a asp-controller="Home" asp-action="BecomeAnEditor">Become An Editor</a>
+                                </li>
+                            }
+                            <partial name="_LoginPartial" />
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
                 </div>
             </div>
-        </nav>
+        </div>
     </header>
-    <div class="container">
+
+    <!-- ***** Header Area End ***** -->
+    @{
+        var currentRequestPath = @Context.Request.Path;
+    }
+
+    @if (@currentRequestPath == "/SubtitlesCatalogue")
+    {
+        <!-- ***** Main Banner Area Start ***** -->
+        <section class="section main-banner" id="top" data-section="section1">
+            <video autoplay muted loop id="bg-video">
+                <source src="assets/images/DUNE_ PART TWO – Final Trailer (2024) Timothée Chalamet, Zendaya Movie _ Warner Bros (online-video-cutter.com).mp4" type="video/mp4" />
+            </video>
+
+            <div class="video-overlay header-text">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="caption">
+                                <h6>Hello Movies Fans</h6>
+                                <h2>Welcome to Subsogator</h2>
+                                <p>
+                                    This is a scalable subtitles management system platform, which enables the user to upload subtitles after approval.
+                                    However, non-registered users can also download the archives of the multiple subtitles, which can be viewed.
+                                </p>
+                                <div class="main-button-red">
+                                    <div class="scroll-to-section"><a href="#contact">Download Now</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ***** Main Banner Area End ***** -->
+    }
+
+@*     <div class="container">
         <main role="main" class="pb-3">
             @if (TempData["UserPromotionInfoMessage"] != null)
             {
@@ -98,18 +146,71 @@
                     @TempData["UserPromotionInfoMessage"]
                 </div>
             }
-
-            @RenderBody()
         </main>
-    </div>
+    </div> *@
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - SubtitlesManagementSystem.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderBody()
+
+    @*  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/assets/js/isotope.min.js"></script>
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/tabs.js"></script>
+    <script src="~/assets/js/video.js"></script>
+    <script src="~/assets/js/slick-slider.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script>
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+            var
+                direction = section.replace(/#/, ''),
+                reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+                reqSectionPos = reqSection.offset().top - 0;
+
+            if (isAnimate) {
+                $('body, html').animate({
+                    scrollTop: reqSectionPos
+                },
+                    800);
+            } else {
+                $('body, html').scrollTop(reqSectionPos);
+            }
+
+        };
+
+        var checkSection = function checkSection() {
+            $('.section').each(function () {
+                var
+                    $this = $(this),
+                    topEdge = $this.offset().top - 80,
+                    bottomEdge = topEdge + $this.height(),
+                    wScroll = $(window).scrollTop();
+                if (topEdge < wScroll && bottomEdge > wScroll) {
+                    var
+                        currentId = $this.data('section'),
+                        reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+                    reqLink.closest('li').addClass('active').
+                        siblings().removeClass('active');
+                }
+            });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+            e.preventDefault();
+            showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+            checkSection();
+        });
+    </script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

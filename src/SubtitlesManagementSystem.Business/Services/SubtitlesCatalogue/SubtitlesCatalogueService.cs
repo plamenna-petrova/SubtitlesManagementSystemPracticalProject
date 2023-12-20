@@ -39,6 +39,7 @@ namespace SubtitlesManagementSystem.Business.Services.SubtitlesCatalogue
                         Id = s.Id,
                         Name = s.Name,
                         UploaderUserName = s.ApplicationUser.UserName,
+                        UploadedOn = s.ModifiedOn,
                         RelatedFilmProduction = new FilmProductionForCatalogueViewModel
                         {
                             Title = s.FilmProduction.Title,

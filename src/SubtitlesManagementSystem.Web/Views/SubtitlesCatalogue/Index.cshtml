@@ -1,126 +1,161 @@
-﻿@model SubtitlesManagementSystem.Web.Models.SubtitlesCatalogue.CatalogueItemsWithPaginationViewModel
+﻿@using System.Globalization
+@model SubtitlesManagementSystem.Web.Models.SubtitlesCatalogue.CatalogueItemsWithPaginationViewModel
 
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            <b>Search for subtitles: </b>
-            <input type="text" name="SearchTerm" class="search-term-input"
-                   value="@ViewData["SubtitlesCatalogueSearchFilter"]" />
-            <input type="submit" value="Search" class="btn btn-success" />
-            <a asp-action="Index" class="btn btn-primary">Reset</a>
-        </p>
-    </div>
-</form>
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="row">
-                @foreach (var subtitles in Model.AllSubtitlesForCatalogue)
-                {
-                    <div class="col-sm-12 col-md-4 p-1">
-                        <div class="custom-column">
-                            <div class="custom-column-content">
-                                @if (subtitles.RelatedFilmProduction.ImageName != null)
-                                {
-                                    <img src="~/images/film-productions/@subtitles.RelatedFilmProduction.ImageName"
-                                         class="rounded-square"
-                                        asp-append-version="true" style="width: 100%; height: 300px;" />
-                                    <br />
-                                }
-                                else
-                                {
-                                    <img src="~/images/film-productions/istockphoto-1147544807-612x612.jpg" style="width: 100%; height: 300px;" />
-                                }
+<section class="upcoming-meetings meetings-page" id="meetings">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-heading">
+                    <h2>Subtitles Catalogue</h2>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="mb-5">
+                        <form asp-action="Index" method="get">
+                            <div class="form-actions no-color">
+                                <p>
+                                    <b>Search for subtitles: </b>
+                                    <input type="text" name="SearchTerm" class="search-term-input"
+                                           value="@ViewData["SubtitlesCatalogueSearchFilter"]" />
+                                    <input type="submit" value="Search" class="btn btn-success rounded-pill" />
+                                    <a asp-action="Index" class="btn btn-primary rounded-pill">Reset</a>
+                                </p>
                             </div>
-                            <div class="custom-column-header">@Html.DisplayFor(subtitlesModelItem => subtitles.Name)</div>
-                            <div class="custom-column-footer"><a class="btn btn-success" asp-action="Details" asp-route-id="@subtitles.Id">View</a></div>
+                        </form>
+                    </div>
+                    @foreach (var subtitles in Model.AllSubtitlesForCatalogue)
+                    {
+                        <div class="col-lg-4 templatemo-item-col all soon">
+                            <div class="meeting-item">
+                                <div class="thumb">
+                                    <div class="price">
+                                        <span>@Html.DisplayFor(subtitlesModelItem => subtitles.RelatedFilmProduction.Duration) min.</span>
+                                    </div>
+                                    @if (subtitles.RelatedFilmProduction.ImageName != null)
+                                    {
+                                        <a asp-action="Details" asp-route-id="@subtitles.Id"><img src="~/images/film-productions/@subtitles.RelatedFilmProduction.ImageName" alt="" style="height: 300px;"></a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Details" asp-route-id="@subtitles.Id"><img src="~/images/film-productions/istockphoto-1147544807-612x612.jpg" alt="" style="height: 300px;"></a>
+                                    }
+                                </div>
+                                <div class="down-content">
+                                    @if (subtitles.UploadedOn != null)
+                                    {
+                                        <div class="date">
+                                            @{
+                                                var subtitlesUploadedOnAbbreviatedMonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(subtitles.UploadedOn.Value.Month);
+                                            }
+                                            <h6>
+                                                @Html.DisplayFor(subtitlesModelItem => subtitlesUploadedOnAbbreviatedMonthName)
+                                                <span>@Html.DisplayFor(subtitlesModelItem => subtitles.UploadedOn.Value.Day)</span>
+                                            </h6>
+                                        </div>
+                                    }
+                                    <a asp-action="Details" asp-route-id="@subtitles.Id"><h4>@Html.DisplayFor(subtitlesModelItem => subtitles.Name)</h4></a>
+                                    <p>Uploaded By: @Html.DisplayFor(subtitlesModelItem => subtitles.UploaderUserName)</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-12">
+                        <div class="pagination">
+                            <ul>
+                                <li>
+                                    <a asp-action="Index"
+                                       asp-route-pageNumber="@(Model.AllSubtitlesForCatalogue.PageIndex - 1)"
+                                       asp-route-pageSize="@ViewData["CurrentPageSize"]"
+                                       asp-route-currentFilter="@ViewData["SubtitlesCatalogueSearchFilter"]"
+                                       class="btn @(!Model.AllSubtitlesForCatalogue.HasPreviousPage ? "disabled" : "")" style="line-height: 25px;">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                </li>
+                                @for (int pageIndex = 1; pageIndex <= @Model.AllSubtitlesForCatalogue.TotalPages; pageIndex++)
+                                {
+                                    <li>
+                                        <a style="@(Model.AllSubtitlesForCatalogue.PageIndex == pageIndex ? "color: white; background-color: #a12c2f;" : "")"
+                                           asp-action="Index"
+                                           asp-route-currentFilter="@ViewData["SubtitlesCatalogueSearchFilter"]"
+                                           asp-route-pageSize="@ViewData["CurrentPageSize"]"
+                                           asp-route-pageNumber="@pageIndex" style="line-height: 25px;" s>
+                                            @pageIndex
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a asp-action="Index"
+                                       asp-route-pageNumber="btn @(Model.AllSubtitlesForCatalogue.PageIndex + 1)"
+                                       asp-route-pageSize="@ViewData["CurrentPageSize"]"
+                                       asp-route-currentFilter="@ViewData["SubtitlesCatalogueSearchFilter"]"
+                                       class="btn @(!Model.AllSubtitlesForCatalogue.HasNextPage ? "disabled" : "")" style="line-height: 25px;">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="row justify-content-center">
+                                <div class="col-5">
+                                    <div class="mt-2 text-white">Page @Model.AllSubtitlesForCatalogue.PageIndex out of @Model.AllSubtitlesForCatalogue.TotalPages </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                }
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="categories">
+                    @if (!Model.LatestComments.Any())
+                    {
+                        <h5>There are currently no comments</h5>
+                    }
+                    else
+                    {
+                        <div class="mb-5">
+                            <h5>Latest Comments</h5>
+                            <ul class="list-group">
+                                @foreach (var latestComment in Model.LatestComments)
+                                {
+                                    <li class="list-group-item">
+                                        @latestComment.UserName commented on
+                                        <a class="link-primary" asp-action="Details" asp-route-id="@latestComment.SubtitlesId">
+                                            @latestComment.SubtitlesName
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <div class="categories mt-3">
+                    @if (!Model.TopSubtitles.Any())
+                    {
+                        <h5>No subtitles have been added to favourites yet</h5>
+                    }
+                    else
+                    {
+                        <div>
+                            <h5>Top Subtitles</h5>
+                            <ul class="list-group mb-3">
+                                @foreach (var topSubtitlesEntry in Model.TopSubtitles)
+                                {
+                                    <li class="list-group-item">
+                                        <a class="link-primary" asp-action="Details" asp-route-id="@topSubtitlesEntry.Id">
+                                            @topSubtitlesEntry.Name
+                                        </a>
+                                        uploaded by @topSubtitlesEntry.UploaderUserName
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="footer">
+                <p>
+                    Copyright © 2023 Subsogator, Ltd. All Rights Reserved.
+                    Distibuted By: Subsogator
+                </p>
             </div>
         </div>
-        <div class="col-lg-3">
-            @if (!Model.LatestComments.Any())
-            {
-                <h5>There are currently no comments</h5>
-            }
-            else
-            {
-                <div class="mb-5">
-                    <h5>Latest Comments</h5>
-                    <ul class="list-group">
-                        @foreach (var latestComment in Model.LatestComments)
-                        {
-                            <li class="list-group-item">
-                                @latestComment.UserName commented on
-                                <a class="link-primary" asp-action="Details" asp-route-id="@latestComment.SubtitlesId">
-                                    @latestComment.SubtitlesName
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            }
-
-            @if (!Model.TopSubtitles.Any())
-            {
-                <h5>No subtitles have been added to favourites yet</h5>
-            }
-            else
-            {
-                <div>
-                    <h5>Top Subtitles</h5>
-                    <ul class="list-group mb-3">
-                        @foreach (var topSubtitlesEntry in Model.TopSubtitles)
-                        {
-                            <li class="list-group-item">
-                                <a class="link-primary" asp-action="Details" asp-route-id="@topSubtitlesEntry.Id">
-                                    @topSubtitlesEntry.Name
-                                </a>
-                                uploaded by @topSubtitlesEntry.UploaderUserName
-                            </li>
-                        }
-                    </ul>
-                </div>
-            }
-        </div>
-    </div>
-</div>
-
-<div class="row mt-5">
-    <div class="col-5">
-        <a asp-action="Index"
-           asp-route-pageNumber="@(Model.AllSubtitlesForCatalogue.PageIndex - 1)"
-           asp-route-pageSize="@ViewData["CurrentPageSize"]"
-           asp-route-currentFilter="@ViewData["SubtitlesCatalogueSearchFilter"]"
-           class="btn btn-outline-primary @(!Model.AllSubtitlesForCatalogue.HasPreviousPage ? "disabled" : "")">
-            Previous
-        </a>
-
-        @for (int pageIndex = 1; pageIndex <= @Model.AllSubtitlesForCatalogue.TotalPages; pageIndex++)
-        {
-            <a class="btn @(Model.AllSubtitlesForCatalogue.PageIndex == pageIndex ? "btn-primary" : "btn-outline-primary")"
-               asp-action="Index"
-               asp-route-currentFilter="@ViewData["SubtitlesCatalogueSearchFilter"]"
-               asp-route-pageSize="@ViewData["CurrentPageSize"]"
-               asp-route-pageNumber="@pageIndex">
-                @pageIndex
-            </a>
-        }
-
-        <a asp-action="Index"
-           asp-route-pageNumber="@(Model.AllSubtitlesForCatalogue.PageIndex + 1)"
-           asp-route-pageSize="@ViewData["CurrentPageSize"]"
-           asp-route-currentFilter="@ViewData["SubtitlesCatalogueSearchFilter"]"
-           class="btn btn-outline-primary @(!Model.AllSubtitlesForCatalogue.HasNextPage ? "disabled" : "")">
-            Next
-        </a>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-5">
-        <div class="mt-2">Page @Model.AllSubtitlesForCatalogue.PageIndex out of @Model.AllSubtitlesForCatalogue.TotalPages </div>
-    </div>
-</div>
+</section>

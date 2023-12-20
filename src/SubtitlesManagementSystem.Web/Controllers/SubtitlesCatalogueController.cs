@@ -85,10 +85,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
                         );
             }
 
-            if (pageSize == null)
-            {
-                pageSize = 5;
-            }
+            pageSize ??= 5;
 
             ViewData["CurrentPageSize"] = pageSize;
 
