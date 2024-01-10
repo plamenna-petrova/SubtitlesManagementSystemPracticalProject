@@ -20,8 +20,12 @@
     <link rel="stylesheet" href="~/assets/css/lightbox.css">
 </head>
 <body>
+    @{
+        var currentRequestPath = @Context.Request.Path;
+    }
+
     <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
+    <header class="header-area header-sticky @(currentRequestPath != "/SubtitlesCatalogue" ? "background-header" : "")">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -103,9 +107,6 @@
     </header>
 
     <!-- ***** Header Area End ***** -->
-    @{
-        var currentRequestPath = @Context.Request.Path;
-    }
 
     @if (@currentRequestPath == "/SubtitlesCatalogue")
     {
@@ -138,21 +139,9 @@
         <!-- ***** Main Banner Area End ***** -->
     }
 
-@*     <div class="container">
-        <main role="main" class="pb-3">
-            @if (TempData["UserPromotionInfoMessage"] != null)
-            {
-                <div class="alert alert-success" role="alert">
-                    @TempData["UserPromotionInfoMessage"]
-                </div>
-            }
-        </main>
-    </div> *@
-
     @RenderBody()
 
-    @*  <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    <partial name="_Footer" />
 
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

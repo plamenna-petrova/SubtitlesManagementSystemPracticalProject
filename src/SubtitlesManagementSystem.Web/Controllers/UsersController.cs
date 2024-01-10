@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Data.DataAccess;
-using Data.DataModels.Entities.Identity;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SubtitlesManagementSystem.Business.Services.Users;
 using SubtitlesManagementSystem.Business.Transactions.Interfaces;
@@ -120,7 +112,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
 
             if (User.FindFirstValue(ClaimTypes.NameIdentifier) == deleteUserViewModel.Id)
             {
-                TempData["UsersInvalidOperationErrorMessage"] = "Error! The admin cannot delete himself!";
+                TempData["UserInvalidOperationErrorMessage"] = "Error! The admin cannot delete himself!";
 
                 return RedirectToIndexActionInCurrentController();
             }
@@ -146,14 +138,14 @@ namespace SubtitlesManagementSystem.Web.Controllers
                 string userFailedDeletionErrorMessage = NotificationMessages
                     .RecordFailedDeletionErrorMessage;
 
-                TempData["UsersErrorMessage"] =
+                TempData["UserErrorMessage"] =
                     string.Format(userFailedDeletionErrorMessage, "user") +
                     $" {userToConfirmDeletion.UserName}!";
 
                 return RedirectToAction(nameof(Delete));
             }
 
-            TempData["UsersSuccessMessage"] = string.Format(
+            TempData["UserSuccessMessage"] = string.Format(
                 NotificationMessages.RecordDeletionSuccessMessage,
                 "User", $"{userToConfirmDeletion.UserName}"
             );

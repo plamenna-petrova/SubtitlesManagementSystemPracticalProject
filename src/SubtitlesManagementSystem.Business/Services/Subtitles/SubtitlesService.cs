@@ -4,11 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using SubtitlesManagementSystem.Web.Models.FilmProductions.ViewModels;
 using SubtitlesManagementSystem.Web.Models.Subtitles.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Subtitles.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubtitlesManagementSystem.Business.Services.Subtitles
 {

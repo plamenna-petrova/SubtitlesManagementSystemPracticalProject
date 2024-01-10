@@ -1,6 +1,4 @@
-﻿using Data.DataAccess.Repositories.Implementation;
-using Data.DataAccess.Repositories.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SubtitlesManagementSystem.Business.Services.Actors;
 using SubtitlesManagementSystem.Business.Services.Comments;
 using SubtitlesManagementSystem.Business.Services.Countries;
@@ -15,11 +13,6 @@ using SubtitlesManagementSystem.Business.Services.SubtitlesCatalogue;
 using SubtitlesManagementSystem.Business.Services.Users;
 using SubtitlesManagementSystem.Business.Transactions.Implementation;
 using SubtitlesManagementSystem.Business.Transactions.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubtitlesManagementSystem.Infrastructure.Extensions
 {

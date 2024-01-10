@@ -4,165 +4,190 @@
     ViewData["Title"] = "Create New Film Production";
 }
 
-<h3>@ViewData["Title"]</h3>
+<section class="contact-us" id="contact">
+    <h3>@ViewData["Title"]</h3>
 
-<hr />
-@if (TempData["FilmProductionErrorMessage"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["FilmProductionErrorMessage"]
-    </div>
-}
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReleaseDate" class="control-label"></label>
-                <input asp-for="ReleaseDate" class="form-control" />
-                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlotSummary" class="control-label"></label>
-                <textarea asp-for="PlotSummary" class="form-control" rows="5"></textarea>
-                <span asp-validation-for="PlotSummary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Country</label>
-                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryByName"></select>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Language</label>
-                <select asp-for="LanguageId" class="form-control" asp-items="ViewBag.LanguageByName"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" accept="image/*" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <b>Genres</b>
-                <div class="col-md-10 pl-0">
-                    <table>
-                        <tr>
-                            @{
-                                int assignedGenresCounter = 0;
-
-                                foreach (var genre in Model.AssignedGenres)
-                                {
-                                    if (assignedGenresCounter++ % 2 == 0)
-                                    {
-                                    @:</tr><tr>
-                                    }
-                                    @:<td>
-                                        <input type="checkbox"
-                                               name="selectedGenres"
-                                               value="@genre.GenreId"
-                                               @(Html.Raw(genre.IsAssigned ? "checked=\"checked\"" : "")) />
-                                        @genre.Name
-                                    @:</td>
-                                }
-                            @:</tr>
-                            }
-                        </table>
-                    </div>
-                    <b>Actors</b>
-                    <div class="col-md-10 pl-0">
-                        <table>
-                            <tr>
-                                @{
-                                    int assignedActorsCounter = 0;
-
-                                    foreach (var actor in Model.AssignedActors)
-                                    {
-                                        if (assignedActorsCounter++ % 2 == 0)
-                                        {
-                                        @:</tr><tr>
-                                        }
-                                        @:<td>
-                                            <input type="checkbox"
-                                                   name="selectedActors"
-                                                   value="@actor.ActorId"
-                                                   @(Html.Raw(actor.IsAssigned ? "checked=\"checked\"" : "")) />
-                                            <span>@actor.FirstName @actor.LastName</span>
-                                        @:</td>
-                                    }
-                                @:</tr>
-                                }
-                            </table>
-                        </div>
-                    </div>
-                    <b>Directors</b>
-                    <div class="col-md-10 pl-0">
-                        <table>
-                            <tr>
-                                @{
-                                    int assignedDirectorsCounter = 0;
-
-                                    foreach (var director in Model.AssignedDirectors)
-                                    {
-                                        if (assignedDirectorsCounter++ % 2 == 0)
-                                        {
-                                        @:</tr><tr>
-                                        }
-                                        @:<td>
-                                            <input type="checkbox"
-                                                   name="selectedDirectors"
-                                                   value="@director.DirectorId"
-                                                   @(Html.Raw(director.IsAssigned ? "checked=\"checked\"" : "")) />
-                                            <span>@director.FirstName @director.LastName</span>
-                                        @:</td>
-                                    }
-                                @:</tr>
-                                }
-                            </table>
-                        </div>
-                        <b>Screenwriters</b>
-                        <div class="col-md-10 pl-0">
-                            <table>
-                                <tr>
-                                    @{
-                                        int assignedScreenwritersCounter = 0;
-
-                                        foreach (var screenwriter in Model.AssignedScreenwriters)
-                                        {
-                                            if (assignedScreenwritersCounter++ % 2 == 0)
-                                            {
-                                            @:</tr><tr>
-                                            }
-                                            @:<td>
-                                                <input type="checkbox"
-                                                       name="selectedScreenwriters"
-                                                       value="@screenwriter.ScreenwriterId"
-                                                       @(Html.Raw(screenwriter.IsAssigned ? "checked=\"checked\"" : "")) />
-                                                <span>@screenwriter.FirstName @screenwriter.LastName</span>
-                                            @:</td>
-                                        }
-                                    @:</tr>
-                                    }
-                                </table>
+    @if (TempData["FilmProductionErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["FilmProductionErrorMessage"]
+        </div>
+    }
+    <div class="container">
+        <div class="row">
+            <div class="col-12 align-self-center">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-lg-6">
+                        <form id="contact" asp-action="Create" method="post">
+                            <h2>@ViewData["Title"]</h2>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-floating mt-3">
+                                <fieldset>
+                                    <label asp-for="Title" class="control-label text-dark"></label>
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                            <div class="form-floating mt-3">
+                                <fieldset>
+                                    <label asp-for="Duration" class="control-label text-dark"></label>
+                                    <input asp-for="Duration" class="form-control" />
+                                    <span asp-validation-for="Duration" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                            <div class="form-floating mt-3">
+                                <fieldset>
+                                    <label asp-for="ReleaseDate" class="control-label text-dark"></label>
+                                    <input asp-for="ReleaseDate" class="form-control" />
+                                    <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                            <div class="form-floating mt-3">
+                                <fieldset>
+                                    <label asp-for="PlotSummary" class="control-label text-dark"></label>
+                                    <textarea asp-for="PlotSummary" class="form-control" rows="5"></textarea>
+                                    <span asp-validation-for="PlotSummary" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                            <div class="form-floating mt-3">
+                                <fieldset>
+                                    <label class="control-label text-dark">Country</label>
+                                    <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryByName"></select>
+                                </fieldset>
+                            </div>
+                            <div class="form-floating mt-3">
+                                <fieldset>
+                                    <label class="control-label text-dark">Language</label>
+                                    <select asp-for="LanguageId" class="form-control" asp-items="ViewBag.LanguageByName"></select>
+                                </fieldset>
+                            </div>
+                            <div class="form-floating mt-3">
+                                <fieldset>
+                                    <label asp-for="ImageFile" class="control-label text-dark"></label>
+                                    <input asp-for="ImageFile" accept="image/*" />
+                                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                </fieldset>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Save" class="btn btn-primary" />
+                                <b>Genres</b>
+                                <div class="col-md-10 pl-0">
+                                    <table>
+                                        <tr>
+                                        @{
+                                            int assignedGenresCounter = 0;
+
+                                            foreach (var genre in Model.AssignedGenres)
+                                            {
+                                                if (assignedGenresCounter++ % 2 == 0)
+                                                {
+                                                   @:</tr><tr>
+                                                }
+                                                @:<td>
+                                                   <input type="checkbox"
+                                                     name="selectedGenres"
+                                                     value="@genre.GenreId"
+                                                     style="width: initial !important; margin-bottom: 0px !important; vertical-align: middle"
+                                                     @(Html.Raw(genre.IsAssigned ? "checked=\"checked\"" : "")) />
+                                                    @genre.Name
+                                                @:</td>
+                                            }
+                                        @:</tr>
+                                        }
+                                    </table>
+                                </div>
+                                <b>Actors</b>
+                                <div class="col-md-10 pl-0">
+                                    <table>
+                                        <tr>
+                                        @{
+                                            int assignedActorsCounter = 0;
+
+                                            foreach (var actor in Model.AssignedActors)
+                                            {
+                                                if (assignedActorsCounter++ % 2 == 0)
+                                                {
+                                                    @:</tr><tr>
+                                                }
+                                                @:<td>
+                                                <input type="checkbox"
+                                                    name="selectedActors"
+                                                    value="@actor.ActorId"
+                                                    style="width: initial !important; margin-bottom: 0px !important; vertical-align: middle"
+                                                    @(Html.Raw(actor.IsAssigned ? "checked=\"checked\"" : "")) />
+                                                    <span>@actor.FirstName @actor.LastName</span>
+                                                @:</td>
+                                            }               
+                                        @:</tr>
+                                        }
+                                    </table>
+                                </div>
+                                <b>Directors</b>
+                                <div class="col-md-10 pl-0">
+                                    <table>
+                                        <tr>
+                                        @{
+                                            int assignedDirectorsCounter = 0;
+
+                                            foreach (var director in Model.AssignedDirectors)
+                                                {
+                                                if (assignedDirectorsCounter++ % 2 == 0)
+                                                {
+                                                    @:</tr><tr>
+                                                }
+                                                @:<td>
+                                                <input type="checkbox"
+                                                    name="selectedDirectors"
+                                                    value="@director.DirectorId"
+                                                    style="width: initial !important; margin-bottom: 0px !important; vertical-align: middle"
+                                                    @(Html.Raw(director.IsAssigned ? "checked=\"checked\"" : "")) />
+                                                    <span>@director.FirstName @director.LastName</span>
+                                                   @:</td>
+                                                }
+                                        @:</tr>
+                                        }
+                                    </table>
+                                </div>
+                                <b>Screenwriters</b>
+                                <div class="col-md-10 pl-0">
+                                    <table>
+                                        <tr>
+                                        @{
+                                            int assignedScreenwritersCounter = 0;
+
+                                            foreach (var screenwriter in Model.AssignedScreenwriters)
+                                            {
+                                                if (assignedScreenwritersCounter++ % 2 == 0)
+                                                {
+                                                    @:</tr><tr>
+                                                }
+                                                @:<td>
+                                                    <input type="checkbox"
+                                                        name="selectedScreenwriters"
+                                                        value="@screenwriter.ScreenwriterId"
+                                                        style="width: initial !important; margin-bottom: 0px !important; vertical-align: middle"
+                                                        @(Html.Raw(screenwriter.IsAssigned ? "checked=\"checked\"" : "")) />
+                                                    <span>@screenwriter.FirstName @screenwriter.LastName</span>
+                                                @:</td>
+                                            }
+                                        @:</tr>
+                                    }
+                                    </table>
+                                </div>
+                            </div>        
+                            <div class="my-3">
+                                 <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
                             </div>
-                        </form>
+                        </form>                            
+                        <div>
+                            <a asp-action="Index" class="btn btn-secondary mt-5">Back to Film Productions List</a>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-                <div>
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                </div>
-
-                @section Scripts {
-                    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-                }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

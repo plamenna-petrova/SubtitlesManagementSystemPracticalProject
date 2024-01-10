@@ -3,17 +3,3 @@
 
 // Write your JavaScript code.
 
-const pageSizeSelect = document.querySelector(".page-size-select");
-const searchTermInput = document.querySelector(".search-term-input");
-const changePageSizeButton = document.querySelector(".change-page-size-button");
-
-changePageSizeButton.addEventListener('click', () => {
-    let currentFilter = searchTermInput.value;
-    let currentFilterQueryParameter = currentFilter !== ""
-        ? `currentFilter=${currentFilter}`
-        : "";
-    let pageSizeQueryParameter = `pageSize=${pageSizeSelect.value}`;
-    let redirectWithOptions = `${changePageSizeButton.href}?${currentFilterQueryParameter}&${pageSizeQueryParameter}`;
-    changePageSizeButton.href = redirectWithOptions;
-});
-

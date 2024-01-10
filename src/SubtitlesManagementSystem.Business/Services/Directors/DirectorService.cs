@@ -5,11 +5,6 @@ using SubtitlesManagementSystem.Web.Models.Directors.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Directors.ViewModels;
 using SubtitlesManagementSystem.Web.Models.FilmProductions.ViewModels;
 using SubtitlesManagementSystem.Web.Models.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubtitlesManagementSystem.Business.Services.Directors
 {

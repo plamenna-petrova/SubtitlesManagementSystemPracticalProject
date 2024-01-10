@@ -5,11 +5,6 @@ using SubtitlesManagementSystem.Web.Models.FilmProductions.ViewModels;
 using SubtitlesManagementSystem.Web.Models.Mapping;
 using SubtitlesManagementSystem.Web.Models.Screenwriters.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Screenwriters.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubtitlesManagementSystem.Business.Services.Screenwriters
 {

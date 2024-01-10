@@ -1,10 +1,5 @@
 ﻿using SubtitlesManagementSystem.Common.GlobalConstants;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubtitlesManagementSystem.Web.Models.Actors.ViewModels
 {

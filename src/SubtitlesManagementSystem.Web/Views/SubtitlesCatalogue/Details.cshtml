@@ -9,17 +9,20 @@
                     <div class="col-lg-12">
                         <div class="meeting-single-item">
                             <div class="thumb">
-                                @if (Model.CreatedOn != new DateTime() || Model.ModifiedOn != null)
+                                @if (Model.CreatedOn != default)
                                 {
-                                    <div class="date">
-                                        @{
-                                            var subtitlesUploadedOnAbbreviatedMonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(Model.ModifiedOn.Value.Month);
-                                        }
-                                        <h6>
-                                            @Html.DisplayFor(subtitlesModelItem => subtitlesUploadedOnAbbreviatedMonthName)
-                                            <span>@Html.DisplayFor(model => model.ModifiedOn!.Value.Day)</span>
-                                        </h6>
-                                    </div>
+                                    @if (Model.ModifiedOn != null)
+                                    {
+                                        <div class="date">
+                                            @{
+                                                var subtitlesUploadedOnAbbreviatedMonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(Model.ModifiedOn.Value.Month);
+                                            }
+                                            <h6>
+                                                @Html.DisplayFor(subtitlesModelItem => subtitlesUploadedOnAbbreviatedMonthName)
+                                                <span>@Html.DisplayFor(model => model.ModifiedOn!.Value.Day)</span>
+                                            </h6>
+                                        </div>
+                                    }
                                 }
                                 <a asp-action="Details" asp-route-id="@Model.Id">
                                     @if (Model.RelatedFilmProduction.ImageName != null)
@@ -41,43 +44,43 @@
                                     <dt class="col-sm-3 text-white bg-danger font-weight-normal">
                                         @Html.DisplayNameFor(model => model.CreatedOn)
                                     </dt>
-                                    <dd class="col-sm-9 text-white">
+                                    <dd class="col-sm-9 text-white font-weight-normal">
                                         @Html.DisplayFor(model => model.CreatedOn)
                                     </dd>
-                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal">
+                                    <dt class="col-sm-3 text-white bg-danger font-weight-normal font-weight-normal">
                                         Uploaded By
                                     </dt>
-                                    <dd class="col-sm-9 text-white">
+                                    <dd class="col-sm-9 text-white font-weight-normal">
                                         @Html.DisplayFor(model => model.UploaderUserName)
                                     </dd>
                                     <dt class="col-sm-3 text-white bg-danger font-weight-normal">
                                         Release Date
                                     </dt>
-                                    <dd class="col-sm-9 text-white">
+                                    <dd class="col-sm-9 text-white font-weight-normal">
                                         @Model.RelatedFilmProduction.ReleaseDate.ToShortDateString()
                                     </dd>
                                     <dt class="col-sm-3 text-white bg-danger font-weight-normal">
                                         Duration
                                     </dt>
-                                    <dd class="col-sm-9 text-white">
+                                    <dd class="col-sm-9 text-white font-weight-normal">
                                         @Html.DisplayFor(model => model.RelatedFilmProduction.Duration)
                                     </dd>
                                     <dt class="col-sm-3 text-white bg-danger font-weight-normal">
                                         Country
                                     </dt>
-                                    <dd class="col-sm-9 text-white">
+                                    <dd class="col-sm-9 text-white font-weight-normal">
                                         @Html.DisplayFor(model => model.RelatedFilmProduction.CountryName)
                                     </dd>
                                     <dt class="col-sm-3 text-white bg-danger font-weight-normal">
                                         Language
                                     </dt>
-                                    <dd class="col-sm-9 text-white">
+                                    <dd class="col-sm-9 text-white font-weight-normal">
                                         @Html.DisplayFor(model => model.RelatedFilmProduction.LanguageName)
                                     </dd>
                                     <dt class="col-sm-3 text-white bg-danger font-weight-normal">
                                         @Html.DisplayNameFor(model => model.ModifiedOn)
                                     </dt>
-                                    <dd class="col-sm-9 text-white">
+                                    <dd class="col-sm-9 text-white font-weight-normal">
                                         @Html.DisplayFor(model => model.ModifiedOn)
                                     </dd>
                                 </dl>
@@ -148,10 +151,5 @@
             </div>
         </div>
     </div>
-    <div class="footer">
-        <p>
-            Copyright © 2023 Subsogator, Ltd. All Rights Reserved.
-            Distibuted By: Subtitles Management System
-        </p>
-    </div>
+    <partial name="_Footer" />
 </section>

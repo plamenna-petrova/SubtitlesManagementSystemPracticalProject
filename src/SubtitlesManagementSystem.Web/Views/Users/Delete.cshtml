@@ -1,33 +1,30 @@
 ﻿@model SubtitlesManagementSystem.Web.Models.Users.DeleteUserViewModel
 
-@{
-    ViewData["Title"] = "Delete";
-}
+<section class="meetings-page" id="meetings" style="min-height: 100vh;">
+    <div class="container">
+        @if (TempData["UserErrorMessage"] != null)
+        {
+            <div class="alert alert-danger mb-3" role="alert">
+                @TempData["UserErrorMessage"]
+            </div>
+        }
 
-<h3>@ViewData["Title"]</h3>
+        <div class="row">
+            <div>
+                <dl class="row bg-secondary">
+                    <dt class="col-sm-2 text-white bg-info font-weight-normal">
+                        @Html.DisplayNameFor(user => user.UserName)
+                    </dt>
+                    <dd class="col-sm-10 text-white">
+                        @Html.DisplayFor(user => user.UserName)
+                    </dd>
+                </dl>
 
-@if (TempData["UsersErrorMessage"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["UsersErrorMessage"]
+                <form asp-action="Delete">
+                    <input type="submit" value="Delete" class="btn btn-danger my-5" />
+                    <a asp-action="Index" class="btn btn-primary my-5 ml-5">Back to Users List</a>
+                </form>
+            </div>
+        </div>
     </div>
-}
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="row bg-secondary">
-        <dt class="col-sm-2 text-white bg-info font-weight-normal">
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd class="col-sm-10 text-white">
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-primary">Back to List</a>
-    </form>
-</div>
+</section>

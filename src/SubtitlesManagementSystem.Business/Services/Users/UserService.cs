@@ -3,13 +3,7 @@ using Data.DataModels.Entities.Identity;
 using Data.DataModels.Enums;
 using Microsoft.AspNetCore.Identity;
 using SubtitlesManagementSystem.Web.Models.Users;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using static SubtitlesManagementSystem.Common.GlobalConstants.IdentityConstants;
 
 namespace SubtitlesManagementSystem.Business.Services.Users
@@ -191,7 +185,7 @@ namespace SubtitlesManagementSystem.Business.Services.Users
                     await _userManager.RemoveLoginAsync(managedUserToDelete, userLogin.LoginProvider, userLogin.ProviderKey);
                 }
 
-                if (userRoles.Count() > 0)
+                if (userRoles.Count > 0)
                 {
                     foreach (var userRole in userRoles.ToList())
                     {

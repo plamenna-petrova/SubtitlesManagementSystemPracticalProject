@@ -1,11 +1,6 @@
 ﻿using SubtitlesManagementSystem.Common.GlobalConstants;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SubtitlesManagementSystem.Web.Models.Mapping;
 
 namespace SubtitlesManagementSystem.Web.Models.Actors.BindingModels

@@ -3,19 +3,20 @@
 
 <section class="upcoming-meetings meetings-page" id="meetings">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-heading">
-                    <h2>Subtitles Catalogue</h2>
-                </div>
+        @if (TempData["UserPromotionInfoMessage"] != null)
+        {
+            <div class="alert alert-success mb-3" role="alert">
+                @TempData["UserPromotionInfoMessage"]
             </div>
+        }
+
+        <div class="row">
             <div class="col-lg-8">
                 <div class="row">
-                    <div class="mb-5">
+                    <div class="col-lg-12 mb-5">
                         <form asp-action="Index" method="get">
                             <div class="form-actions no-color">
                                 <p>
-                                    <b>Search for subtitles: </b>
                                     <input type="text" name="SearchTerm" class="search-term-input"
                                            value="@ViewData["SubtitlesCatalogueSearchFilter"]" />
                                     <input type="submit" value="Search" class="btn btn-success rounded-pill" />
@@ -41,7 +42,7 @@
                                         <a asp-action="Details" asp-route-id="@subtitles.Id"><img src="~/images/film-productions/istockphoto-1147544807-612x612.jpg" alt="" style="height: 300px;"></a>
                                     }
                                 </div>
-                                <div class="down-content">
+                                <div class="down-content border border-dark">
                                     @if (subtitles.UploadedOn != null)
                                     {
                                         <div class="date">
@@ -61,7 +62,7 @@
                         </div>
                     }
                     <div class="col-12">
-                        <div class="pagination">
+                        <div class="pagination" style="margin-bottom: 50px;">
                             <ul>
                                 <li>
                                     <a asp-action="Index"
@@ -94,68 +95,57 @@
                                     </a>
                                 </li>
                             </ul>
-                            <div class="row justify-content-center">
-                                <div class="col-5">
-                                    <div class="mt-2 text-white">Page @Model.AllSubtitlesForCatalogue.PageIndex out of @Model.AllSubtitlesForCatalogue.TotalPages </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="categories">
-                    @if (!Model.LatestComments.Any())
-                    {
-                        <h5>There are currently no comments</h5>
-                    }
-                    else
-                    {
-                        <div class="mb-5">
-                            <h5>Latest Comments</h5>
-                            <ul class="list-group">
-                                @foreach (var latestComment in Model.LatestComments)
-                                {
-                                    <li class="list-group-item">
-                                        @latestComment.UserName commented on
-                                        <a class="link-primary" asp-action="Details" asp-route-id="@latestComment.SubtitlesId">
-                                            @latestComment.SubtitlesName
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                </div>
-                <div class="categories mt-3">
-                    @if (!Model.TopSubtitles.Any())
-                    {
-                        <h5>No subtitles have been added to favourites yet</h5>
-                    }
-                    else
-                    {
-                        <div>
-                            <h5>Top Subtitles</h5>
-                            <ul class="list-group mb-3">
-                                @foreach (var topSubtitlesEntry in Model.TopSubtitles)
-                                {
-                                    <li class="list-group-item">
-                                        <a class="link-primary" asp-action="Details" asp-route-id="@topSubtitlesEntry.Id">
-                                            @topSubtitlesEntry.Name
-                                        </a>
-                                        uploaded by @topSubtitlesEntry.UploaderUserName
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                </div>
+                <div class="categories border border-dark">
+                @if (!Model.LatestComments.Any())
+                {
+                    <h5>There are currently no comments</h5>
+                }
+                else
+                {
+                    <div class="mb-5">
+                        <h5>Latest Comments</h5>
+                        <ul class="list-group">
+                            @foreach (var latestComment in Model.LatestComments)
+                            {
+                                <li class="list-group-item">
+                                   @latestComment.UserName commented on
+                                    <a class="link-primary" asp-action="Details" asp-route-id="@latestComment.SubtitlesId">
+                                        @latestComment.SubtitlesName
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
             </div>
-            <div class="footer">
-                <p>
-                    Copyright © 2023 Subsogator, Ltd. All Rights Reserved.
-                    Distibuted By: Subsogator
-                </p>
+            <div class="categories border border-dark mt-3">
+                @if (!Model.TopSubtitles.Any())
+                {
+                    <h5>No subtitles have been added to favourites yet</h5>
+                }
+                else
+                {
+                    <div>
+                        <h5>Top Subtitles</h5>
+                        <ul class="list-group mb-3">
+                            @foreach (var topSubtitlesEntry in Model.TopSubtitles)
+                            {
+                                <li class="list-group-item">
+                                    <a class="link-primary" asp-action="Details" asp-route-id="@topSubtitlesEntry.Id">
+                                        @topSubtitlesEntry.Name
+                                    </a>
+                                    uploaded by @topSubtitlesEntry.UploaderUserName
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
             </div>
         </div>
+    </div>
 </section>

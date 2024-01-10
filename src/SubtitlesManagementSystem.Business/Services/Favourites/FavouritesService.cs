@@ -1,11 +1,6 @@
 ﻿using Data.DataAccess.Repositories.Interfaces;
 using SubtitlesManagementSystem.Web.Models.Favourites;
 using SubtitlesManagementSystem.Web.Models.FilmProductions.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubtitlesManagementSystem.Business.Services.Favourites
 {

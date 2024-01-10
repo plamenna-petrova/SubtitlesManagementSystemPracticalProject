@@ -1,11 +1,6 @@
 ﻿using Data.DataModels.Entities;
 using SubtitlesManagementSystem.Web.Models.Directors.BindingModels;
 using SubtitlesManagementSystem.Web.Models.Directors.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubtitlesManagementSystem.Business.Services.Directors
 {
