@@ -10,7 +10,7 @@ using SubtitlesManagementSystem.Web.Models.Actors.ViewModels;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace SubtitlesManagementSystem.Tests.Web
+namespace SubtitlesManagementSystem.Tests.UnitTests.Web
 {
     public class ActorsControllerTests
     {
@@ -51,7 +51,7 @@ namespace SubtitlesManagementSystem.Tests.Web
             Assert.IsType<ActorsController>(_actorsController);
         }
 
-        [Fact]  
+        [Fact]
         public void Test_ActorsControllerIndexAction_ShouldReturnValidSortingFilteringAndPaginationData()
         {
             // Arrange

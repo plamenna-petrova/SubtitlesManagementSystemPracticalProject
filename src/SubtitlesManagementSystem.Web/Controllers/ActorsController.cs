@@ -100,7 +100,7 @@ namespace SubtitlesManagementSystem.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator, Editor")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Create(
             CreateActorBindingModel createActorBindingModel,
             string[] selectedFilmProductions

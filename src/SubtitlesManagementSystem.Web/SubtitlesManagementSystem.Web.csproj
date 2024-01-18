@@ -27,5 +27,4 @@
     <ProjectReference Include="..\SubtitlesManagementSystem.Infrastructure\SubtitlesManagementSystem.Infrastructure.csproj" />
     <ProjectReference Include="..\SubtitlesManagementSystem.Web.Models\SubtitlesManagementSystem.Web.Models.csproj" />
   </ItemGroup>
-
 </Project>

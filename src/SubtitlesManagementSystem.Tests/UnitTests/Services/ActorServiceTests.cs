@@ -7,7 +7,7 @@ using SubtitlesManagementSystem.Web.Models.Actors.BindingModels;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace SubtitlesManagementSystem.Tests.Services
+namespace SubtitlesManagementSystem.Tests.UnitTests.Services
 {
     public class ActorServiceTests
     {

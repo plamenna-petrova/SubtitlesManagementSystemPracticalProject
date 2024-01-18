@@ -72,3 +72,8 @@ webApplication.MapControllerRoute(
 webApplication.MapRazorPages();
 
 webApplication.Run();
+
+public partial class Program 
+{
+    
+}
