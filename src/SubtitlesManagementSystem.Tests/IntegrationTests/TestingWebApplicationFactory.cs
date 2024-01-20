@@ -28,6 +28,7 @@ namespace EmployeesApp.IntegrationTests
 
                 using var scope = serviceProvider.CreateScope();
                 using var applicationDbContextInServicesScope = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
                 try
                 {
                     applicationDbContextInServicesScope.Database.EnsureCreated();

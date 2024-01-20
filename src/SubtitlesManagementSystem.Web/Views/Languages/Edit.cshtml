@@ -1,5 +1,9 @@
 ﻿@model SubtitlesManagementSystem.Web.Models.Languages.BindingModels.EditLanguageBindingModel
 
+@{
+    ViewData["Title"] = "Edit Language";
+}
+
 <section class="contact-us" id="contact">
     @if (TempData["LanguageErrorMessage"] != null)
     {

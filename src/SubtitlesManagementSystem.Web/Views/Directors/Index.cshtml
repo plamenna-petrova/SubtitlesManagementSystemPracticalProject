@@ -99,13 +99,13 @@
                                asp-route-pageNumber="@(Model.PageIndex - 1)"
                                asp-route-pageSize="@ViewData["CurrentPageSize"]"
                                asp-route-currentFilter="@ViewData["DirectorSearchFilter"]"
-                               class="btn btn-light @(!Model.HasPreviousPage ? "disabled" : "")">
+                               class="btn btn-light border border-dark @(!Model.HasPreviousPage ? "disabled" : "")">
                                 Previous
                             </a>
 
                             @for (int pageIndex = 1; pageIndex <= @Model.TotalPages; pageIndex++)
                             {
-                                <a class="btn @(Model.PageIndex == pageIndex ? "btn-dark text-light" : "btn-light")"
+                                <a class="btn @(Model.PageIndex == pageIndex ? "btn-dark text-light" : "btn-light border border-dark")"
                                    asp-action="Index"
                                    asp-route-sortOrder="@ViewData["CurrentSort"]"
                                    asp-route-currentFilter="@ViewData["DirectorSearchFilter"]"
@@ -120,7 +120,7 @@
                                asp-route-pageNumber="@(Model.PageIndex + 1)"
                                asp-route-pageSize="@ViewData["CurrentPageSize"]"
                                asp-route-currentFilter="@ViewData["DirectorSearchFilter"]"
-                               class="btn btn-light @(!Model.HasNextPage ? "disabled" : "")">
+                               class="btn btn-light border border-dark @(!Model.HasNextPage ? "disabled" : "")">
                                 Next
                             </a>
                         </div>

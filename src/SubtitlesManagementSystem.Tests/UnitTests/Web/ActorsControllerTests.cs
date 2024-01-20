@@ -82,14 +82,16 @@ namespace SubtitlesManagementSystem.Tests.UnitTests.Web
             _actorServiceMock.Setup(asm => asm.GetAllActors()).Returns(testActors);
 
             var sortedFilteredAndPaginatedActorsActionResult = _actorsController.Index("actor_first_name_descending", "Jo", "Jo", 3, null);
-            var sortedFilteredAndPaginatedActionViewResult = Assert.IsType<ViewResult>(sortedFilteredAndPaginatedActorsActionResult);
-            var allActorsViewModelPaginatedList = Assert.IsAssignableFrom<PaginatedList<AllActorsViewModel>>(
-                sortedFilteredAndPaginatedActionViewResult.ViewData.Model
-            );
 
             // Assert
             Assert.Multiple(() =>
             {
+                var sortedFilteredAndPaginatedActionViewResult = Assert.IsType<ViewResult>(sortedFilteredAndPaginatedActorsActionResult);
+
+                var allActorsViewModelPaginatedList = Assert.IsAssignableFrom<PaginatedList<AllActorsViewModel>>(
+                    sortedFilteredAndPaginatedActionViewResult.ViewData.Model
+                );
+
                 Assert.Equal(expected: "Joseph", actual: allActorsViewModelPaginatedList[0].FirstName);
                 Assert.Equal(expected: "Gordon-Levitt", actual: allActorsViewModelPaginatedList[0].LastName);
                 Assert.Equal(expectedActorsCount, allActorsViewModelPaginatedList.Count);
