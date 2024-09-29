@@ -59,7 +59,7 @@
                                     <select asp-for="LanguageId" class="form-control" asp-items="ViewBag.LanguageByName"></select>
                                 </fieldset>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-4">
                                 @if (Model.ImageName != null)
                                 {
                                     <img src="~/images/film-productions/@Model.ImageName"
@@ -84,7 +84,7 @@
                                         @{
                                             int assignedGenresCounter = 0;
 
-                                            foreach (var genre in Model.AssignedGenres)
+                                            foreach (var genre in Model.AssignedGenres!)
                                             {
                                                 if (assignedGenresCounter++ % 2 == 0)
                                                 {
@@ -110,7 +110,7 @@
                                         @{
                                             int assignedActorsCounter = 0;
 
-                                            foreach (var actor in Model.AssignedActors)
+                                            foreach (var actor in Model.AssignedActors!)
                                             {
                                                 if (assignedActorsCounter++ % 2 == 0)
                                                 {
@@ -136,7 +136,7 @@
                                         @{
                                             int assignedDirectorsCounter = 0;
 
-                                            foreach (var director in Model.AssignedDirectors)
+                                            foreach (var director in Model.AssignedDirectors!)
                                                 {
                                                 if (assignedDirectorsCounter++ % 2 == 0)
                                                 {
@@ -162,7 +162,7 @@
                                         @{
                                             int assignedScreenwritersCounter = 0;
 
-                                            foreach (var screenwriter in Model.AssignedScreenwriters)
+                                            foreach (var screenwriter in Model.AssignedScreenwriters!)
                                             {
                                                 if (assignedScreenwritersCounter++ % 2 == 0)
                                                 {
