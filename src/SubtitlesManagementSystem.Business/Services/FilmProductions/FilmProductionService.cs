@@ -7,6 +7,8 @@ using SubtitlesManagementSystem.Web.Models.FilmProductions.BindingModels;
 using SubtitlesManagementSystem.Web.Models.FilmProductions.ViewModels;
 using SubtitlesManagementSystem.Web.Models.Languages.ViewModels;
 using SubtitlesManagementSystem.Web.Models.Mapping;
+using System;
+using System.IO;
 
 namespace SubtitlesManagementSystem.Business.Services.FilmProductions
 {
@@ -186,15 +188,6 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
             string currentUserName
         )
         {
-            string wwwRootPath = _hostingEnvironment.WebRootPath;
-            string fileName = Path.GetFileNameWithoutExtension(
-                createFilmProductionBindingModel.ImageFile.FileName
-            );
-            string extension = Path.GetExtension(createFilmProductionBindingModel.ImageFile.FileName);
-            string filmProductionImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff")
-                    + extension;
-            string path = Path.Combine(wwwRootPath + "/images/film-productions", fileName);
-
             FilmProduction filmProductionToCreate = new FilmProduction
             {
                 Title = createFilmProductionBindingModel.Title,
@@ -203,13 +196,28 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                 PlotSummary = createFilmProductionBindingModel.PlotSummary,
                 CountryId = createFilmProductionBindingModel.CountryId,
                 LanguageId = createFilmProductionBindingModel.LanguageId,
-                ImageName = filmProductionImageName,
-                ImageFile = createFilmProductionBindingModel.ImageFile
             };
 
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            if (createFilmProductionBindingModel.ImageFile != null)
             {
-                filmProductionToCreate.ImageFile.CopyTo(fileStream);
+                string wwwRootPath = _hostingEnvironment.WebRootPath;
+
+                string fileName = Path.GetFileNameWithoutExtension(
+                    createFilmProductionBindingModel.ImageFile!.FileName
+                );
+
+                string extension = Path.GetExtension(createFilmProductionBindingModel.ImageFile.FileName);
+                string filmProductionImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff") + extension;
+
+                string path = Path.Combine(wwwRootPath + "/images/film-productions", fileName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    filmProductionToCreate.ImageFile.CopyTo(fileStream);
+                }
+
+                filmProductionToCreate.ImageName = filmProductionImageName;
+                filmProductionToCreate.ImageFile = createFilmProductionBindingModel.ImageFile;
             }
 
             if (selectedGenres != null)

@@ -4,7 +4,7 @@ namespace SubtitlesManagementSystem.Web.Models.Subtitles.BindingModels
 {
     public class CreateSubtitlesBindingModel
     {
-        public string Name { get; set; }
+        public string? Name { get; set; } = null;
 
         public string FilmProductionId { get; set; }
 

@@ -12,7 +12,7 @@
             <div class="col-12 align-self-center">
                 <div class="row justify-content-center mb-5">
                     <div class="col-lg-6">
-                        <form id="contact" class="border border-dark" asp-action="Create" method="post">
+                        <form id="contact" class="border border-dark" asp-action="Create" method="post" enctype="multipart/form-data">
                             <h2>@ViewData["Title"]</h2>
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-floating mt-3">

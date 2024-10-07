@@ -2,18 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using Data.DataModels.Entities.Identity;
 
 namespace SubtitlesManagementSystem.Web.Areas.Identity.Pages.Account
@@ -122,6 +115,12 @@ namespace SubtitlesManagementSystem.Web.Areas.Identity.Pages.Account
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
 
                 var username = (await _userManager.FindByEmailAsync(LoginBinding.Email))?.UserName;
+
+                if (username == null)
+                {
+                    TempData["LoginErrorMessage"] = $"A user with the following email: {LoginBinding.Email} doesn't exist";
+                    return Page();
+                }
 
                 var passwordSignInResult = await _signInManager.PasswordSignInAsync(
                     username, 

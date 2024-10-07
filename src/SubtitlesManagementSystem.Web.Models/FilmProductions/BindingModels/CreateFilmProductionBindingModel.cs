@@ -32,7 +32,7 @@ namespace SubtitlesManagementSystem.Web.Models.FilmProductions.BindingModels
         public string LanguageId { get; set; }
 
         [DisplayName("Upload Image")]
-        public IFormFile? ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; } = null!;
 
         public IEnumerable<AssignedGenreDataViewModel>? AssignedGenres { get; set; }
 
