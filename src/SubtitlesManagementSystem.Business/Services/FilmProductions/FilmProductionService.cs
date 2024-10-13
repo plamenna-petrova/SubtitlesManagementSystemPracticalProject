@@ -195,7 +195,7 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                 ReleaseDate = (DateTime)createFilmProductionBindingModel.ReleaseDate,
                 PlotSummary = createFilmProductionBindingModel.PlotSummary,
                 CountryId = createFilmProductionBindingModel.CountryId,
-                LanguageId = createFilmProductionBindingModel.LanguageId,
+                LanguageId = createFilmProductionBindingModel.LanguageId
             };
 
             if (createFilmProductionBindingModel.ImageFile != null)
@@ -209,15 +209,15 @@ namespace SubtitlesManagementSystem.Business.Services.FilmProductions
                 string extension = Path.GetExtension(createFilmProductionBindingModel.ImageFile.FileName);
                 string filmProductionImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff") + extension;
 
+                filmProductionToCreate.ImageName = filmProductionImageName;
+                filmProductionToCreate.ImageFile = createFilmProductionBindingModel.ImageFile;
+
                 string path = Path.Combine(wwwRootPath + "/images/film-productions", fileName);
 
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     filmProductionToCreate.ImageFile.CopyTo(fileStream);
                 }
-
-                filmProductionToCreate.ImageName = filmProductionImageName;
-                filmProductionToCreate.ImageFile = createFilmProductionBindingModel.ImageFile;
             }
 
             if (selectedGenres != null)
